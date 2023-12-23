@@ -216,10 +216,12 @@ class _SearchState extends State<BrowsePage> {
               return Container(
                   width: 230,
                   height: 230,
-                  // decoration: BoxDecoration(
-                  //   color: reccomendations[index].boxColor,
-                  //   borderRadius: BorderRadius.circular(20),
-                  // ),
+                  decoration: BoxDecoration(
+                    color: index % 2 == 0
+                        ? const Color(0xFFD8F2F0) // Every 1st box color
+                        : const Color(0xFFB8ECD7), // Every 2nd box color
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
