@@ -1,82 +1,66 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
+import 'package:inom_project/models/Cocktail.dart';
 
 class ReccomendsModel {
-  String name, iconPath, popularPlace, act1, act2;
+  Cocktail drinkInfo;
   Color boxColor;
-  bool viewIsSelected;
 
-  ReccomendsModel(
-      {required this.name,
-      required this.iconPath,
-      required this.popularPlace,
-      required this.act1,
-      required this.act2,
-      required this.boxColor,
-      required this.viewIsSelected});
+  ReccomendsModel({
+    required this.boxColor,
+    required this.drinkInfo,
+  });
 
-  static List<ReccomendsModel> getDiets() {
+  static Future<List<ReccomendsModel>> getRecommended() async {
     List<ReccomendsModel> reccomendList = [];
+    List<String> drinkNames = [
+      "12754",
+      "12362",
+      "11007",
+      "11006",
+      "17207",
+      "17196",
+      "17204",
+      "11410",
+      "11113",
+      "12214",
+      "11690",
+      "11000",
+      "11202",
+    ];
 
-    reccomendList.add(
-      ReccomendsModel(
-        name: 'Japan',
-        iconPath: 'assets/pictures/japan.jpg',
-        popularPlace: 'Tokyo',
-        act1: 'Culture',
-        act2: 'Food',
-        boxColor: const Color(0xFFD8F2F0),
-        viewIsSelected: true,
-      ),
-    );
+    for (int i = 0; i < drinkNames.length; i++) {
+      Cocktail drinkInfo = await getDrinkInfo(drinkNames[i]);
 
-    reccomendList.add(
-      ReccomendsModel(
-        name: 'Iceland',
-        iconPath: 'assets/pictures/iceland.jpg',
-        popularPlace: 'Reykjavík',
-        act1: 'Nature',
-        act2: 'Serenity',
-        boxColor: const Color(0xFFB8ECD7),
-        viewIsSelected: true,
-      ),
-    );
+      Color boxColor = i % 2 == 0
+          ? const Color(0xFFD8F2F0) // Every 1st box color
+          : const Color(0xFFB8ECD7); // Every 2nd box color
 
-    reccomendList.add(
-      ReccomendsModel(
-        name: 'Maldives',
-        iconPath: 'assets/pictures/maldives.jpg',
-        popularPlace: 'Baa Atoll',
-        act1: 'Nature',
-        act2: 'Serenity',
-        boxColor: const Color(0xFFD8F2F0),
-        viewIsSelected: true,
-      ),
-    );
-
-    reccomendList.add(
-      ReccomendsModel(
-        name: 'New Zealand',
-        iconPath: 'assets/pictures/newzealand.jpg',
-        popularPlace: 'Queenstown',
-        act1: 'Adventure',
-        act2: 'Hiking',
-        boxColor: const Color(0xFFB8ECD7),
-        viewIsSelected: true,
-      ),
-    );
-
-    reccomendList.add(
-      ReccomendsModel(
-        name: 'Sweden',
-        iconPath: 'assets/pictures/sweden.jpg',
-        popularPlace: 'Stockholm',
-        act1: 'Culture',
-        act2: 'Nature',
-        boxColor: const Color(0xFFD8F2F0),
-        viewIsSelected: true,
-      ),
-    );
+      reccomendList.add(
+        ReccomendsModel(
+          drinkInfo: drinkInfo,
+          boxColor: boxColor,
+        ),
+      );
+    }
 
     return reccomendList;
+  }
+
+  static Future<Cocktail> getDrinkInfo(String cocktailName) async {
+    String drinkUrl =
+        'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=$cocktailName';
+
+    Response response = await http.get(Uri.parse('$drinkUrl'));
+
+    Map<String, dynamic> responseMap = jsonDecode(response.body);
+    List<dynamic> jsonList = responseMap['drinks'];
+    List<Cocktail> parsedPosts =
+        jsonList.map((e) => Cocktail.fromJson(e)).toList();
+
+    return parsedPosts[0];
   }
 }

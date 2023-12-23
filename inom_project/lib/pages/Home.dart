@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:inom_project/pages/AboutUs.dart';
-import 'package:inom_project/pages/Search.dart';
+import 'package:inom_project/pages/BrowsePage.dart';
 import 'package:inom_project/pages/Dashboard.dart';
 
 class Home extends StatefulWidget {
@@ -16,7 +16,7 @@ class _HomeState extends State<Home> {
   int pageIndex = 0;
   final List<Widget> _pages = [
     const Dashboard(),
-    const Search(),
+    const BrowsePage(),
     const AboutUs()
   ];
 
@@ -37,7 +37,7 @@ class _HomeState extends State<Home> {
             ),
             const BottomNavigationBarItem(
               icon: Icon(Icons.search),
-              label: "Search",
+              label: "Browse",
             ),
             BottomNavigationBarItem(
               icon: const Icon(Icons.info),

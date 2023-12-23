@@ -2,7 +2,7 @@ import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
-import 'package:inom_project/models/detailsModel.dart';
+import 'package:inom_project/models/glassDetailsModel.dart';
 
 class countryDetails extends StatelessWidget {
   final String id;
@@ -240,7 +240,7 @@ class countryDetails extends StatelessWidget {
         await http.get(Uri.parse('https://restcountries.com/v3.1/name/$id'));
 
     if (response.statusCode == 200) {
-      detailsModel newPost = detailsModel.fromJson(response.body);
+      glassModel newPost = glassModel.fromJson(response.body);
 
       return newPost;
     } else {

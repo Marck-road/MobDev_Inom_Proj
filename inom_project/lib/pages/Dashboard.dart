@@ -1,11 +1,10 @@
 import 'dart:convert';
 
-import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
-import 'package:inom_project/models/Post.dart';
+import 'package:inom_project/models/Cocktail.dart';
 import 'package:inom_project/pages/Settings.dart';
 import 'package:inom_project/pages/countryDetails.dart';
 
@@ -19,7 +18,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  List<Post> posts = [];
+  List<Cocktail> posts = [];
   bool isLoading = true;
 
   @override
@@ -106,23 +105,27 @@ class _DashboardState extends State<Dashboard> {
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      countryDetails(id: posts[index].commonName),
+                      countryDetails(id: posts[index].drinkID),
                 ));
           },
           child: Container(
             height: 115,
             color: const Color(0xFFD8F2F0),
-            margin: const EdgeInsets.only(top: 10, left: 20, right: 20),
+            margin: const EdgeInsets.only(
+              top: 10,
+              left: 20,
+              right: 20,
+            ),
             padding: const EdgeInsets.symmetric(
               horizontal: 10.0,
               vertical: 10.0,
             ),
             child: Row(
               children: [
-                CountryFlag.fromCountryCode(
-                  posts[index].cca2,
-                  width: 120,
-                  height: 150,
+                Image.network(
+                  posts[index].drinkPic,
+                  width: 70,
+                  height: 80,
                 ),
                 const SizedBox(
                   width: 10,
@@ -132,18 +135,12 @@ class _DashboardState extends State<Dashboard> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(posts[index].commonName,
+                      Text(posts[index].drinkName,
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                             color: Color(0xFF0F2D40),
                           )),
-                      Text(
-                        'Capital: ${posts[index].capital?.join(", ") ?? "Unknown"}',
-                        style: const TextStyle(
-                          color: Color(0xFF0F2D40),
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -196,11 +193,15 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Future<void> getList() async {
-    Response response =
-        await http.get(Uri.parse('https://restcountries.com/v3.1/all'));
+    Response response = await http.get(
+      Uri.parse(
+          'https://www.thecocktaildb.com/api/json/v1/1/filter.php?g=Cocktail_glass'),
+    );
 
-    List<dynamic> jsonList = jsonDecode(response.body);
-    List<Post> parsedPosts = jsonList.map((e) => Post.fromJsonList(e)).toList();
+    Map<String, dynamic> responseMap = jsonDecode(response.body);
+    List<dynamic> jsonList = responseMap['drinks'];
+    List<Cocktail> parsedPosts =
+        jsonList.map((e) => Cocktail.fromJson(e)).toList();
 
     setState(() {
       posts = parsedPosts;
