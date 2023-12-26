@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inom_project/models/Cocktail.dart';
-import 'package:inom_project/pages/countryDetails.dart';
+import 'package:inom_project/pages/DrinkDetails.dart';
 
 // ignore: must_be_immutable
 class SearchResults extends StatelessWidget {
