@@ -28,7 +28,7 @@ class _SearchState extends State<Dashboard> {
   List<Cocktail> popularDrinks = [];
   List<List<Cocktail>> randomDrink = List.filled(5, []);
 
-  List<Cocktail> posts = [];
+  List<Cocktail> drink = [];
   String searchBy = 'name';
   bool isLoading = true;
   bool isSearching = false;
@@ -372,14 +372,6 @@ class _SearchState extends State<Dashboard> {
                                 fontSize: 16,
                               ),
                             ),
-                            // Text(
-                            //   '${popVisits[index].popularPlace} | ${popVisits[index].act1} | ${popVisits[index].act2}',
-                            //   style: const TextStyle(
-                            //     color: Color(0xFF296B73),
-                            //     fontSize: 13,
-                            //     fontWeight: FontWeight.w400,
-                            //   ),
-                            // ),
                           ],
                         ),
                       ),
@@ -486,14 +478,6 @@ class _SearchState extends State<Dashboard> {
                                 fontSize: 16,
                               ),
                             ),
-                            // Text(
-                            //   '${popVisits[index].popularPlace} | ${popVisits[index].act1} | ${popVisits[index].act2}',
-                            //   style: const TextStyle(
-                            //     color: Color(0xFF296B73),
-                            //     fontSize: 13,
-                            //     fontWeight: FontWeight.w400,
-                            //   ),
-                            // ),
                           ],
                         ),
                       ),
@@ -533,13 +517,13 @@ class _SearchState extends State<Dashboard> {
         controller: textEditingController,
         onSubmitted: (value) async {
           if (value.isNotEmpty) {
-            posts.clear;
+            drink.clear;
             await updateList(value);
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => SearchResults(
-                  posts: posts,
+                  results: drink,
                   searchValue: value,
                 ),
               ),
@@ -631,45 +615,34 @@ class _SearchState extends State<Dashboard> {
   }
 
   Future<void> updateList(String searchValue) async {
-    String baseUrl = 'https://restcountries.com/v3.1/';
+    String baseUrl = 'https://www.thecocktaildb.com/api/json/v1/1/';
     String endpoint = '';
     // Determine the endpoint based on the value of searchBy
     switch (searchBy) {
-      case 'name':
-        endpoint = 'name/$searchValue';
+      case 'Name':
+        endpoint = 'search.php?s=$searchValue';
         break;
-      case 'currency':
-        endpoint = 'currency/$searchValue';
-        break;
-      case 'language':
-        endpoint = 'lang/$searchValue';
-        break;
-      case 'capital':
-        endpoint = 'capital/$searchValue';
-        break;
-      case 'region':
-        endpoint = 'region/$searchValue';
-        break;
-      case 'subregion':
-        endpoint = 'subregion/$searchValue';
+      case 'Ingredient':
+        endpoint = 'filter.php?i=$searchValue';
         break;
     }
 
     Response response = await http.get(Uri.parse('$baseUrl$endpoint'));
 
     if (response.statusCode == 200) {
-      List<dynamic> jsonList = jsonDecode(response.body);
-      List<Cocktail> parsedPosts =
-          jsonList.map((e) => Cocktail.fromJsonList(e)).toList();
+      Map<String, dynamic> responseMap = jsonDecode(response.body);
+      List<dynamic> jsonList = responseMap['drinks'];
+      List<Cocktail> parsedResults =
+          jsonList.map((e) => Cocktail.fromJson(e)).toList();
       setState(() {
-        posts = parsedPosts;
+        drink = parsedResults;
         isLoading = false;
         isSearching = true;
         gotResponses = true;
       });
     } else {
       setState(() {
-        posts = [];
+        drink = [];
         gotResponses = false;
       });
     }

@@ -4,10 +4,10 @@ import 'package:inom_project/pages/DrinkDetails.dart';
 
 // ignore: must_be_immutable
 class SearchResults extends StatelessWidget {
-  final List<Cocktail> posts;
+  final List<Cocktail> results;
   String searchValue;
 
-  SearchResults({super.key, required this.posts, required this.searchValue});
+  SearchResults({super.key, required this.results, required this.searchValue});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class SearchResults extends StatelessWidget {
         title: Text('Search Results for "$searchValue"'),
         backgroundColor: const Color(0xFF3E8C84),
       ),
-      body: posts.isEmpty
+      body: results.isEmpty
           ? const Center(
               child: Text('No results found'),
             )
@@ -27,7 +27,7 @@ class SearchResults extends StatelessWidget {
 
   ListView resultsContent() {
     return ListView.builder(
-      itemCount: posts.length,
+      itemCount: results.length,
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
           onTap: () {
@@ -35,7 +35,7 @@ class SearchResults extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      countryDetails(id: posts[index].drinkID),
+                      countryDetails(id: results[index].drinkID),
                 ));
           },
           child: Container(
@@ -49,7 +49,7 @@ class SearchResults extends StatelessWidget {
             child: Row(
               children: [
                 Image.network(
-                  posts[index].drinkPic,
+                  results[index].drinkPic,
                 ),
                 const SizedBox(
                   width: 10,
@@ -60,7 +60,7 @@ class SearchResults extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        posts[index].drinkName,
+                        results[index].drinkName,
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
