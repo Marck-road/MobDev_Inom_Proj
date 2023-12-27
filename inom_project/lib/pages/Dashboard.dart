@@ -49,7 +49,7 @@ class _SearchState extends State<Dashboard> {
       appBar: AppBar(
         leading: const Icon(Icons.search),
         title: const Text(
-          "Search",
+          "Dashboard",
           style: TextStyle(
             color: Color(0xFFD8F2F0),
           ),
@@ -139,8 +139,8 @@ class _SearchState extends State<Dashboard> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => drinkDetails(
-                                  id: popularDrinks[index].drinkID,
-                                ),
+                                    id: popularDrinks[index].drinkID,
+                                    drinkName: popularDrinks[index].drinkName),
                               ));
                         },
                         child: Container(
@@ -244,8 +244,9 @@ class _SearchState extends State<Dashboard> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => drinkDetails(
-                                    id: randomDrink[index][0].drinkID,
-                                  ),
+                                      id: randomDrink[index][0].drinkID,
+                                      drinkName:
+                                          randomDrink[index][0].drinkName),
                                 ));
                           },
                           child: Container(
@@ -326,8 +327,10 @@ class _SearchState extends State<Dashboard> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            drinkDetails(id: nonAloholic[index].drinkID),
+                        builder: (context) => drinkDetails(
+                          id: Alcoholic[index].drinkID,
+                          drinkName: Alcoholic[index].drinkName,
+                        ),
                       ));
                 },
                 child: Container(
@@ -431,8 +434,9 @@ class _SearchState extends State<Dashboard> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            drinkDetails(id: nonAloholic[index].drinkID),
+                        builder: (context) => drinkDetails(
+                            id: nonAloholic[index].drinkID,
+                            drinkName: nonAloholic[index].drinkName),
                       ));
                 },
                 child: Container(

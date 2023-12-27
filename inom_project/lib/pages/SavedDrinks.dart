@@ -41,7 +41,7 @@ class _SavedDrinksState extends State<SavedDrinks> {
           Icons.home,
           color: Color(0xFFD8F2F0),
         ),
-        title: const Text("Home"),
+        title: const Text("Saved Drinks"),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
@@ -104,7 +104,9 @@ class _SavedDrinksState extends State<SavedDrinks> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => drinkDetails(id: posts[index].drinkID),
+                  builder: (context) => drinkDetails(
+                      id: posts[index].drinkID,
+                      drinkName: posts[index].drinkName),
                 ));
           },
           child: Container(

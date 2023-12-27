@@ -34,8 +34,9 @@ class SearchResults extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      drinkDetails(id: results[index].drinkID),
+                  builder: (context) => drinkDetails(
+                      id: results[index].drinkID,
+                      drinkName: results[index].drinkName),
                 ));
           },
           child: Container(

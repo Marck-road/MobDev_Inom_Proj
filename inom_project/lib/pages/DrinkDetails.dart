@@ -7,9 +7,11 @@ import 'package:inom_project/models/DrinkDetailsModel.dart';
 
 class drinkDetails extends StatelessWidget {
   final String id;
+  final String drinkName;
   const drinkDetails({
     super.key,
     required this.id,
+    required this.drinkName,
   });
 
   @override
@@ -17,7 +19,7 @@ class drinkDetails extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFFBFEFE),
       appBar: AppBar(
-        title: const Text("Details"),
+        title: Text(drinkName),
         backgroundColor: const Color(0xFF3E8C84),
       ),
       body: FutureBuilder(
@@ -180,9 +182,17 @@ class drinkDetails extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(
-                              child: Text(
-                                data[0].instructions,
-                                textAlign: TextAlign.justify,
+                              child: Container(
+                                constraints: BoxConstraints(
+                                  maxHeight:
+                                      200, // Adjust the maxHeight to your preference
+                                ),
+                                child: SingleChildScrollView(
+                                  child: Text(
+                                    data[0].instructions,
+                                    textAlign: TextAlign.justify,
+                                  ),
+                                ),
                               ),
                             ),
                           ],
