@@ -35,7 +35,7 @@ class SearchResults extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      countryDetails(id: results[index].drinkID),
+                      drinkDetails(id: results[index].drinkID),
                 ));
           },
           child: Container(

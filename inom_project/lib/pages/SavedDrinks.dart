@@ -104,8 +104,7 @@ class _SavedDrinksState extends State<SavedDrinks> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      countryDetails(id: posts[index].drinkID),
+                  builder: (context) => drinkDetails(id: posts[index].drinkID),
                 ));
           },
           child: Container(

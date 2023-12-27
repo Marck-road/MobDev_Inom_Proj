@@ -1,12 +1,16 @@
-import 'package:country_flags/country_flags.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
-import 'package:inom_project/models/glassDetailsModel.dart';
+import 'package:inom_project/models/DrinkDetailsModel.dart';
 
-class countryDetails extends StatelessWidget {
+class drinkDetails extends StatelessWidget {
   final String id;
-  const countryDetails({required this.id});
+  const drinkDetails({
+    super.key,
+    required this.id,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +29,6 @@ class countryDetails extends StatelessWidget {
               return const Text("Some error occurred");
             } else {
               final data = snapshot.data;
-              print(data.commonName);
               return detailsContainer(data);
             }
           }),
@@ -57,13 +60,13 @@ class countryDetails extends StatelessWidget {
             const SizedBox(
               height: 50, // Adjust the height to your preference
             ),
-            CountryFlag.fromCountryCode(
-              data.cca2,
+            Image.network(
+              data[0].drinkpicture,
               width: 250,
               height: 200,
             ),
             Text(
-              data.commonName,
+              data[0].drinkName,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 24,
@@ -88,15 +91,15 @@ class countryDetails extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              'Official Name:',
+                              'Category:',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(
-                              width: 25,
+                              width: 56,
                             ),
                             Expanded(
                                 child: Text(
-                              data.officialName,
+                              data[0].category,
                               textAlign: TextAlign.left,
                             )),
                           ],
@@ -105,15 +108,15 @@ class countryDetails extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              'Country Code:',
+                              'Type of Drink:',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(
-                              width: 24,
+                              width: 30,
                             ),
                             Expanded(
                                 child: Text(
-                              data.cca2,
+                              data[0].alcoholic,
                               textAlign: TextAlign.left,
                             )),
                           ],
@@ -121,14 +124,14 @@ class countryDetails extends StatelessWidget {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('Capital:',
+                            const Text('Tags:',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                             const SizedBox(
-                              width: 69,
+                              width: 89,
                             ),
                             Expanded(
                               child: Text(
-                                data.capital?.join(", ") ?? "Unknown",
+                                data[0].tags ?? "None",
                                 textAlign: TextAlign.left,
                               ),
                             ),
@@ -137,13 +140,13 @@ class countryDetails extends StatelessWidget {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('Region:',
+                            const Text('Glass:',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                             const SizedBox(
-                              width: 73,
+                              width: 86,
                             ),
                             Text(
-                              data.region,
+                              data[0].glass,
                               textAlign: TextAlign.left,
                             ),
                           ],
@@ -151,76 +154,37 @@ class countryDetails extends StatelessWidget {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('Subregion:',
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                            const SizedBox(
-                              width: 48,
-                            ),
-                            Expanded(
-                                child: Text(
-                              data.subregion ?? "N/A",
-                              textAlign: TextAlign.left,
-                            )),
-                          ],
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text('Population:',
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                            const SizedBox(
-                              width: 44,
-                            ),
-                            Expanded(
-                                child: Text(
-                              '${data.population ?? "Unknown"}',
-                              textAlign: TextAlign.left,
-                            )),
-                          ],
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text('Area:',
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                            const SizedBox(
-                              width: 87,
-                            ),
-                            Expanded(
-                                child: Text(
-                              '${data.area ?? "Unknown"}',
-                              textAlign: TextAlign.left,
-                            )),
-                          ],
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text('Languages:',
+                            const Text('Ingredients:',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                             const SizedBox(
                               width: 43,
                             ),
                             Expanded(
-                                child: Text(
-                              data.languages ?? "Unknown",
-                              textAlign: TextAlign.left,
-                            )),
+                              child: buildIngredientsText(data[0]),
+                            ),
+                          ],
+                        ),
+                        const Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Instructions:',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              width: 39,
+                            ),
                           ],
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('Currencies:',
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                            const SizedBox(
-                              width: 43,
-                            ),
                             Expanded(
-                                child: Text(
-                              data.currencies ?? "Unknown",
-                              textAlign: TextAlign.left,
-                            )),
+                              child: Text(
+                                data[0].instructions,
+                                textAlign: TextAlign.justify,
+                              ),
+                            ),
                           ],
                         ),
                       ],
@@ -235,14 +199,51 @@ class countryDetails extends StatelessWidget {
     );
   }
 
+  Widget buildIngredientsText(drinkModel data) {
+    List<String?> ingredients = [
+      data.ingredient1,
+      data.ingredient2,
+      data.ingredient3,
+      data.ingredient4,
+      data.ingredient5,
+      data.ingredient6,
+      data.ingredient7,
+      data.ingredient8,
+      data.ingredient9,
+      data.ingredient10,
+    ];
+
+    String result = '';
+
+    for (int i = 0; i < ingredients.length; i++) {
+      if (ingredients[i] != null && ingredients[i]!.isNotEmpty) {
+        if (result.isNotEmpty) {
+          result += ', ';
+        }
+        result += ingredients[i]!;
+      } else {
+        // If ingredient is null or empty, break the loop
+        break;
+      }
+    }
+
+    return Text(
+      result,
+      textAlign: TextAlign.left,
+    );
+  }
+
   Future callApi() async {
-    Response response =
-        await http.get(Uri.parse('https://restcountries.com/v3.1/name/$id'));
+    Response response = await http.get(Uri.parse(
+        'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=$id'));
 
     if (response.statusCode == 200) {
-      glassModel newPost = glassModel.fromJson(response.body);
+      Map<String, dynamic> responseMap = jsonDecode(response.body);
+      List<dynamic> jsonList = responseMap['drinks'];
+      List<drinkModel> newDisplay =
+          jsonList.map((e) => drinkModel.fromJson(e)).toList();
 
-      return newPost;
+      return newDisplay;
     } else {
       throw Exception("Failed to Load Data");
     }

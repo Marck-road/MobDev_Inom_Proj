@@ -138,8 +138,8 @@ class _SearchState extends State<Dashboard> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => countryDetails(
-                                  id: popularDrinks[index].drinkName,
+                                builder: (context) => drinkDetails(
+                                  id: popularDrinks[index].drinkID,
                                 ),
                               ));
                         },
@@ -243,8 +243,8 @@ class _SearchState extends State<Dashboard> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => countryDetails(
-                                    id: randomDrink[index][0].drinkName,
+                                  builder: (context) => drinkDetails(
+                                    id: randomDrink[index][0].drinkID,
                                   ),
                                 ));
                           },
@@ -278,6 +278,7 @@ class _SearchState extends State<Dashboard> {
                       ],
                     ));
               }
+              return null;
             },
             separatorBuilder: (context, index) => const SizedBox(
               width: 25,
@@ -326,7 +327,7 @@ class _SearchState extends State<Dashboard> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            countryDetails(id: nonAloholic[index].drinkName),
+                            drinkDetails(id: nonAloholic[index].drinkID),
                       ));
                 },
                 child: Container(
@@ -431,7 +432,7 @@ class _SearchState extends State<Dashboard> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            countryDetails(id: nonAloholic[index].drinkName),
+                            drinkDetails(id: nonAloholic[index].drinkID),
                       ));
                 },
                 child: Container(
