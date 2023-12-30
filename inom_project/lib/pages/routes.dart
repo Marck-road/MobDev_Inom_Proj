@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:inom_project/pages/Dashboard.dart';
 import 'package:inom_project/pages/Home.dart';
+import 'package:inom_project/pages/Login.dart';
 import 'package:inom_project/pages/Settings.dart';
-import 'package:inom_project/pages/login.dart';
 
 final Map<String, WidgetBuilder> routes = {
   LoginScreen.routeName: (BuildContext context) => const LoginScreen(),

@@ -6,8 +6,14 @@ import 'package:inom_project/pages/DrinkDetails.dart';
 class SearchResults extends StatelessWidget {
   final List<Cocktail> results;
   String searchValue;
+  bool gotResponses;
 
-  SearchResults({super.key, required this.results, required this.searchValue});
+  SearchResults({
+    super.key,
+    required this.results,
+    required this.searchValue,
+    required this.gotResponses,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +23,7 @@ class SearchResults extends StatelessWidget {
         title: Text('Search Results for "$searchValue"'),
         backgroundColor: const Color(0xFF3E8C84),
       ),
-      body: results.isEmpty
+      body: results.isEmpty || !gotResponses
           ? const Center(
               child: Text('No results found'),
             )

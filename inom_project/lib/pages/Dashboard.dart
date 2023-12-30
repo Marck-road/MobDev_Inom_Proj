@@ -530,6 +530,7 @@ class _SearchState extends State<Dashboard> {
                 builder: (context) => SearchResults(
                   results: drink,
                   searchValue: value,
+                  gotResponses: gotResponses,
                 ),
               ),
             );
@@ -633,24 +634,41 @@ class _SearchState extends State<Dashboard> {
     }
 
     Response response = await http.get(Uri.parse('$baseUrl$endpoint'));
-
     if (response.statusCode == 200) {
-      Map<String, dynamic> responseMap = jsonDecode(response.body);
-      List<dynamic> jsonList = responseMap['drinks'];
-      List<Cocktail> parsedResults =
-          jsonList.map((e) => Cocktail.fromJson(e)).toList();
-      setState(() {
-        drink = parsedResults;
-        isLoading = false;
-        isSearching = true;
-        gotResponses = true;
-      });
+      try {
+        if (response.body.isNotEmpty) {
+          Map<String, dynamic> responseMap = jsonDecode(response.body);
+          if (responseMap['drinks'] != null) {
+            List<dynamic> jsonList = responseMap['drinks'];
+            List<Cocktail> parsedResults =
+                jsonList.map((e) => Cocktail.fromJson(e)).toList();
+            setState(() {
+              drink = parsedResults;
+              isLoading = false;
+              isSearching = true;
+              gotResponses = true;
+            });
+          } else {
+            handleNoResults();
+          }
+        } else {
+          handleNoResults();
+        }
+      } catch (e) {
+        // Handle JSON decoding error
+        print('Error decoding JSON: $e');
+        handleNoResults();
+      }
     } else {
-      setState(() {
-        drink = [];
-        gotResponses = false;
-      });
+      handleNoResults();
     }
+  }
+
+  void handleNoResults() {
+    setState(() {
+      drink = [];
+      gotResponses = false;
+    });
   }
 
   Future<void> getAlcoholic_List() async {

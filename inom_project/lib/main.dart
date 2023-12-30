@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inom_project/pages/login.dart';
+import 'package:inom_project/pages/Login.dart';
 import 'package:inom_project/pages/routes.dart';
 
 void main() {

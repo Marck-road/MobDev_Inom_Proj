@@ -44,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
           height: 10.0,
         ),
         const Text(
-          'GEOEXPLORER',
+          'KANPAI',
           style: TextStyle(
             fontFamily: 'Pulchella',
             fontSize: 38,
@@ -91,6 +91,11 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             const SizedBox(
               height: 20.0,
+            ),
+            PrimaryButton(
+              text: "Register",
+              iconData: Icons.login,
+              onPressed: login,
             ),
           ],
         ),

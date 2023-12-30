@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inom_project/models/PrimaryButton.dart';
-import 'package:inom_project/pages/login.dart';
+import 'package:inom_project/pages/Login.dart';
 
 class Settings extends StatefulWidget {
   static const String routeName = "UserProfile";

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "6718566861",
+    "project_id": "mobdevfinals-691d0",
+    "storage_bucket": "mobdevfinals-691d0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:6718566861:android:7c48bedb9b8a6fbd285484",
+        "android_client_info": {
+          "package_name": "com.example.inom_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDS9rH-Ob90dP2-rveYZqWvG1mZmPD16_I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
