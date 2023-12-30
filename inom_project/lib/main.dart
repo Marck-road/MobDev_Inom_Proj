@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:inom_project/firebase_options.dart';
-import 'package:inom_project/pages/Dashboard.dart';
+import 'package:inom_project/pages/Home.dart';
 import 'package:inom_project/pages/Login.dart';
 import 'package:inom_project/pages/routes.dart';
 import 'package:inom_project/services/StorageService.dart';
@@ -18,7 +18,7 @@ void main() async {
 
   if (item != Null) {
     runApp(MaterialApp(
-      initialRoute: Dashboard.routeName,
+      initialRoute: Home.routeName,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Poppins'),
       routes: routes,

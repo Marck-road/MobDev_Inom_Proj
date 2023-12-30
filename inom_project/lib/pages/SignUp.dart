@@ -130,9 +130,11 @@ class _SignUpPageState extends State<SignUpPage> {
 
   void register(String email, String password) async {
     try {
-      UserCredential credential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
-      print("Succesfully Registered User!");
+      UserCredential credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
     } on FirebaseAuthException catch (e) {
       print(e.message);
     } catch (e) {
