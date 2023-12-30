@@ -1,9 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inom_project/models/CustomTextFormField.dart';
 import 'package:inom_project/models/PasswordField.dart';
 import 'package:inom_project/models/PrimaryButton.dart';
+import 'package:inom_project/models/StrorageItem.dart';
+import 'package:inom_project/pages/SignUp.dart';
 import 'package:inom_project/pages/home.dart';
+import 'package:inom_project/services/StorageService.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = "login";
@@ -14,6 +18,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  StorageService storageService = StorageService();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   bool obscureText = true;
   @override
   Widget build(BuildContext context) {
@@ -65,11 +73,11 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 20.0,
             ),
-            const CustomTextFormField(
+            CustomTextFormField(
               labelText: "Email Address",
               hintText: "Enter a valid email",
               iconData: Icons.email,
-              textInputType: TextInputType.emailAddress,
+              controller: emailController,
             ),
             const SizedBox(
               height: 20.0,
@@ -80,6 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
               iconData: Icons.lock,
               obscureText: obscureText,
               onTap: setPasswordVisibility,
+              controller: passwordController,
             ),
             const SizedBox(
               height: 20.0,
@@ -87,28 +96,60 @@ class _LoginScreenState extends State<LoginScreen> {
             PrimaryButton(
               text: "Login",
               iconData: Icons.login,
-              onPressed: login,
+              onPressed: () {
+                signIn(
+                  context,
+                  emailController.value.text,
+                  passwordController.value.text,
+                );
+              },
             ),
             const SizedBox(
               height: 20.0,
             ),
-            PrimaryButton(
-              text: "Register",
-              iconData: Icons.login,
-              onPressed: login,
-            ),
+            Row(
+              children: [
+                Text("New to the app?"),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushReplacementNamed(
+                      context,
+                      SignUpPage.routeName,
+                    );
+                  },
+                  child: Text(
+                    "Sign up Here!",
+                    style: TextStyle(
+                      color: Colors.blue,
+                    ),
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ),
     );
   }
 
-  void login() {
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      Home.routeName,
-      (route) => false, // This will remove all previous routes from the stack
-    );
+  Future<void> signIn(context, String email, String password) async {
+    try {
+      UserCredential credential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+
+      var item = StorageItem("uid", credential.user?.uid ?? "");
+      await storageService.saveData(item);
+
+      await Navigator.pushNamedAndRemoveUntil(
+        context,
+        Home.routeName,
+        (route) => false, // This will remove all previous routes from the stack
+      );
+    } on FirebaseAuthException catch (e) {
+      print(e.message);
+    } catch (e) {
+      print(e);
+    }
   }
 
   void setPasswordVisibility() {
