@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:inom_project/models/CustomTextFormField.dart';
 import 'package:inom_project/models/PasswordField.dart';
 import 'package:inom_project/models/PrimaryButton.dart';
 import 'package:inom_project/models/StrorageItem.dart';
+import 'package:inom_project/pages/Dashboard.dart';
 import 'package:inom_project/pages/SignUp.dart';
 import 'package:inom_project/pages/home.dart';
 import 'package:inom_project/services/StorageService.dart';
@@ -107,6 +109,16 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 20.0,
             ),
+            PrimaryButton(
+              text: "Sign In with Google",
+              iconData: Icons.login,
+              onPressed: () {
+                LoginWithGoogle();
+              },
+            ),
+            const SizedBox(
+              height: 20.0,
+            ),
             Row(
               children: [
                 Text("New to the app?"),
@@ -156,5 +168,24 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       obscureText = !obscureText;
     });
+  }
+
+  LoginWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      UserCredential? userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+
+      Navigator.pushReplacementNamed(context, Dashboard.routeName);
+    } catch (e) {
+      print(e);
+    }
   }
 }
