@@ -179,6 +179,9 @@ class _LoginScreenState extends State<LoginScreen> {
   googleLogin() async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      if (googleUser == null) return;
+
       final GoogleSignInAuthentication? googleAuth =
           await googleUser?.authentication;
       final credential = GoogleAuthProvider.credential(
