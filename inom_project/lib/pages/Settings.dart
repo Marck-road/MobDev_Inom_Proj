@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:inom_project/models/PrimaryButton.dart';
 import 'package:inom_project/pages/Login.dart';
+import 'package:inom_project/services/StorageService.dart';
 
 class Settings extends StatefulWidget {
   static const String routeName = "UserProfile";
@@ -62,7 +65,15 @@ class _Settings extends State<Settings> {
     );
   }
 
-  void logout() {
+  Future<void> logout() async {
+    StorageService storageService = StorageService();
+    storageService.deleteAllData();
+
+    await GoogleSignIn().signOut();
+    FirebaseAuth.instance.signOut();
+
+    print(FirebaseAuth.instance.currentUser);
+
     Navigator.pushReplacementNamed(context, LoginScreen.routeName);
   }
 }

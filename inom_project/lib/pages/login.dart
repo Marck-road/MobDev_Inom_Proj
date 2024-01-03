@@ -99,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
               text: "Login",
               iconData: Icons.login,
               onPressed: () {
-                signIn(
+                emailPasswordLogin(
                   context,
                   emailController.value.text,
                   passwordController.value.text,
@@ -113,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
               text: "Sign In with Google",
               iconData: Icons.login,
               onPressed: () {
-                LoginWithGoogle();
+                googleLogin();
               },
             ),
             const SizedBox(
@@ -144,13 +144,19 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Future<void> signIn(context, String email, String password) async {
+  Future<void> emailPasswordLogin(
+      context, String email, String password) async {
     try {
-      UserCredential credential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      UserCredential credential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
       var item = StorageItem("uid", credential.user?.uid ?? "");
       await storageService.saveData(item);
+
+      User? currentUser = FirebaseAuth.instance.currentUser;
 
       await Navigator.pushNamedAndRemoveUntil(
         context,
@@ -170,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  LoginWithGoogle() async {
+  googleLogin() async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       final GoogleSignInAuthentication? googleAuth =
@@ -182,6 +188,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
       UserCredential? userCredential =
           await FirebaseAuth.instance.signInWithCredential(credential);
+
+      User? currentUser = FirebaseAuth.instance.currentUser;
+
+      // EmailAuthCredential emailCredential = EmailAuthProvider.credential(
+      //   email: "user@example.com", //replace with actual email
+      //   password: "password123", //replace with actual password
+      // );
+
+      // if (currentUser != null && !currentUser.isAnonymous) {
+      //   await currentUser.linkWithCredential(emailCredential);
+      // }
 
       Navigator.pushReplacementNamed(context, Dashboard.routeName);
     } catch (e) {

@@ -16,7 +16,7 @@ void main() async {
 
   var item = await storageService.readData("uid");
 
-  if (item != Null) {
+  if (item != null) {
     runApp(MaterialApp(
       initialRoute: Home.routeName,
       debugShowCheckedModeBanner: false,

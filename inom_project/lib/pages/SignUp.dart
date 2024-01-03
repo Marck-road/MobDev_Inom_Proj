@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inom_project/models/CustomTextFormField.dart';
 import 'package:inom_project/models/PasswordField.dart';
 import 'package:inom_project/models/PrimaryButton.dart';
+import 'package:inom_project/pages/Home.dart';
 import 'package:inom_project/pages/login.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -104,7 +105,7 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               Row(
                 children: [
-                  Text("Already have an account?"),
+                  Text("Already have an account? "),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushReplacementNamed(
@@ -134,6 +135,18 @@ class _SignUpPageState extends State<SignUpPage> {
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
+      );
+
+      UserCredential loginCredentials =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      await Navigator.pushNamedAndRemoveUntil(
+        context,
+        Home.routeName,
+        (route) => false, // This will remove all previous routes from the stack
       );
     } on FirebaseAuthException catch (e) {
       print(e.message);
