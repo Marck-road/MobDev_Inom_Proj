@@ -105,7 +105,7 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               Row(
                 children: [
-                  Text("Already have an account? "),
+                  const Text("Already have an account? "),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushReplacementNamed(
@@ -113,7 +113,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         LoginScreen.routeName,
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       "Login",
                       style: TextStyle(
                         color: Colors.blue,
@@ -143,6 +143,7 @@ class _SignUpPageState extends State<SignUpPage> {
         password: password,
       );
 
+      // ignore: use_build_context_synchronously
       await Navigator.pushNamedAndRemoveUntil(
         context,
         Home.routeName,

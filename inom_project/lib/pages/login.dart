@@ -182,26 +182,30 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (googleUser == null) return;
 
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
+      try {
+        UserCredential userPassCredential =
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: googleUser.email,
+          password: "123456",
+        );
+      } catch (e) {
+        print(e);
+      }
 
-      UserCredential? userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credential);
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
 
       User? currentUser = FirebaseAuth.instance.currentUser;
 
-      // EmailAuthCredential emailCredential = EmailAuthProvider.credential(
-      //   email: "user@example.com", //replace with actual email
-      //   password: "password123", //replace with actual password
-      // );
+      await currentUser?.linkWithCredential(credential);
 
-      // if (currentUser != null && !currentUser.isAnonymous) {
-      //   await currentUser.linkWithCredential(emailCredential);
-      // }
+      UserCredential? userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
 
       Navigator.pushReplacementNamed(context, Dashboard.routeName);
     } catch (e) {

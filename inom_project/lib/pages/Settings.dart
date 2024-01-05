@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:inom_project/models/PrimaryButton.dart';
+import 'package:inom_project/pages/ChangePassword.dart';
 import 'package:inom_project/pages/Login.dart';
 import 'package:inom_project/services/StorageService.dart';
 
@@ -71,6 +72,41 @@ class _Settings extends State<Settings> {
                 ),
           const SizedBox(
             height: 40.0,
+          ),
+          Container(
+            height: 30,
+            width: 200, // Set the desired width
+            decoration: BoxDecoration(
+              color: Colors.blueGrey, // Set the background color here
+              borderRadius:
+                  BorderRadius.circular(8), // Optional: add rounded corners
+            ),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, ChangePassword.routeName);
+              },
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.key,
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ), // Optional: add spacing between icon and text
+                  Text(
+                    'Edit Password',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.white, // Set the text color
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 10.0,
           ),
           isAccountLinked()
               ? Container(
