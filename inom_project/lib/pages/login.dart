@@ -6,7 +6,6 @@ import 'package:inom_project/models/CustomTextFormField.dart';
 import 'package:inom_project/models/PasswordField.dart';
 import 'package:inom_project/models/PrimaryButton.dart';
 import 'package:inom_project/models/StrorageItem.dart';
-import 'package:inom_project/pages/Dashboard.dart';
 import 'package:inom_project/pages/SignUp.dart';
 import 'package:inom_project/pages/home.dart';
 import 'package:inom_project/services/StorageService.dart';
@@ -182,6 +181,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (googleUser == null) return;
 
+      var item = StorageItem("uid", googleUser.id ?? "");
+      await storageService.saveData(item);
+
       try {
         UserCredential userPassCredential =
             await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -202,12 +204,21 @@ class _LoginScreenState extends State<LoginScreen> {
 
       User? currentUser = FirebaseAuth.instance.currentUser;
 
-      await currentUser?.linkWithCredential(credential);
+      try {
+        await currentUser?.linkWithCredential(credential);
+      } catch (e) {
+        print(e);
+      }
 
       UserCredential? userCredential =
           await FirebaseAuth.instance.signInWithCredential(credential);
 
-      Navigator.pushReplacementNamed(context, Dashboard.routeName);
+      // ignore: use_build_context_synchronously
+      await Navigator.pushNamedAndRemoveUntil(
+        context,
+        Home.routeName,
+        (route) => false, // This will remove all previous routes from the stack
+      );
     } catch (e) {
       print(e);
     }

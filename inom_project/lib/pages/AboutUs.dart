@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inom_project/pages/Settings.dart';
+import 'package:inom_project/pages/UserProfile.dart';
 
 class AboutUs extends StatelessWidget {
   const AboutUs({super.key});
@@ -25,7 +25,7 @@ class AboutUs extends StatelessWidget {
             icon: const Icon(Icons.settings),
             color: Color(0xFFD8F2F0),
             onPressed: () {
-              Navigator.pushNamed(context, Settings.routeName);
+              Navigator.pushNamed(context, UserProfile.routeName);
             },
           )
         ],

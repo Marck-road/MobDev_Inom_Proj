@@ -7,15 +7,15 @@ import 'package:inom_project/pages/ChangePassword.dart';
 import 'package:inom_project/pages/Login.dart';
 import 'package:inom_project/services/StorageService.dart';
 
-class Settings extends StatefulWidget {
+class UserProfile extends StatefulWidget {
   static const String routeName = "UserProfile";
 
-  const Settings({super.key});
+  const UserProfile({super.key});
   @override
-  _Settings createState() => _Settings();
+  _UserProfile createState() => _UserProfile();
 }
 
-class _Settings extends State<Settings> {
+class _UserProfile extends State<UserProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,18 +73,18 @@ class _Settings extends State<Settings> {
           const SizedBox(
             height: 40.0,
           ),
-          Container(
-            height: 30,
-            width: 200, // Set the desired width
-            decoration: BoxDecoration(
-              color: Colors.blueGrey, // Set the background color here
-              borderRadius:
-                  BorderRadius.circular(8), // Optional: add rounded corners
-            ),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, ChangePassword.routeName);
-              },
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, ChangePassword.routeName);
+            },
+            child: Container(
+              height: 30,
+              width: 200, // Set the desired width
+              decoration: BoxDecoration(
+                color: Colors.blueGrey, // Set the background color here
+                borderRadius:
+                    BorderRadius.circular(8), // Optional: add rounded corners
+              ),
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -230,7 +230,7 @@ class _Settings extends State<Settings> {
     try {
       if (currentUser != null && !currentUser.isAnonymous) {
         await currentUser.linkWithCredential(googleCredential);
-        Navigator.pushReplacementNamed(context, Settings.routeName);
+        Navigator.pushReplacementNamed(context, UserProfile.routeName);
       }
     } catch (e) {
       print(e);

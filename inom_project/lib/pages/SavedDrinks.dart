@@ -1,15 +1,13 @@
-import 'dart:convert';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:http/http.dart';
-import 'package:http/http.dart' as http;
-import 'package:inom_project/models/Cocktail.dart';
-import 'package:inom_project/pages/DrinkDetails.dart';
-import 'package:inom_project/pages/Settings.dart';
+import 'package:inom_project/models/savedDrinkModel.dart';
+import 'package:inom_project/pages/SavedDrinkDetails.dart';
+import 'package:inom_project/pages/UserProfile.dart';
 
 class SavedDrinks extends StatefulWidget {
-  static const String routeName = "dashboard";
+  static const String routeName = "SavedDrinks";
 
   const SavedDrinks({super.key});
 
@@ -18,17 +16,15 @@ class SavedDrinks extends StatefulWidget {
 }
 
 class _SavedDrinksState extends State<SavedDrinks> {
-  List<Cocktail> posts = [];
+  List<savedDrinkModel> savedDrinks = [];
   bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    getList();
-  }
+    getUserDrinks();
 
-  Future<void> fetchListData() async {
-    await getList(); // This will wait for the HTTP request to complete.
+    isLoading = false;
   }
 
   @override
@@ -46,7 +42,9 @@ class _SavedDrinksState extends State<SavedDrinks> {
           IconButton(
             icon: const Icon(Icons.settings),
             color: Color(0xFFD8F2F0),
-            onPressed: settings,
+            onPressed: () {
+              Navigator.pushNamed(context, UserProfile.routeName);
+            },
           )
         ],
       ),
@@ -64,16 +62,28 @@ class _SavedDrinksState extends State<SavedDrinks> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Logo(),
-              const Row(
+              Row(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: Text(
-                      'List of All Countries:',
+                      'Saved Drinks:',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: Color(0xFF296B73),
+                      ),
+                    ),
+                  ),
+                  Spacer(),
+                  GestureDetector(
+                    onTap: () {
+                      getUserDrinks();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 20.0),
+                      child: Icon(
+                        Icons.refresh,
                       ),
                     ),
                   ),
@@ -86,7 +96,7 @@ class _SavedDrinksState extends State<SavedDrinks> {
           delegate: SliverChildListDelegate([
             SizedBox(
               // color: Color(0xFF296B73),
-              height: 620,
+              height: 461,
               child: dashboardContent(),
             ),
           ]),
@@ -97,16 +107,16 @@ class _SavedDrinksState extends State<SavedDrinks> {
 
   ListView dashboardContent() {
     return ListView.builder(
-      itemCount: posts.length,
+      itemCount: savedDrinks.length,
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
           onTap: () {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => drinkDetails(
-                      id: posts[index].drinkID,
-                      drinkName: posts[index].drinkName),
+                  builder: (context) => SavedDrinkDetails(
+                      id: savedDrinks[index].drinkID,
+                      drinkName: savedDrinks[index].drinkName),
                 ));
           },
           child: Container(
@@ -124,7 +134,7 @@ class _SavedDrinksState extends State<SavedDrinks> {
             child: Row(
               children: [
                 Image.network(
-                  posts[index].drinkPic,
+                  savedDrinks[index].pictureUrl,
                   width: 70,
                   height: 80,
                 ),
@@ -136,7 +146,7 @@ class _SavedDrinksState extends State<SavedDrinks> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(posts[index].drinkName,
+                      Text(savedDrinks[index].drinkName,
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -190,23 +200,31 @@ class _SavedDrinksState extends State<SavedDrinks> {
   }
 
   void settings() {
-    Navigator.pushNamed(context, Settings.routeName);
+    Navigator.pushNamed(context, UserProfile.routeName);
   }
 
-  Future<void> getList() async {
-    Response response = await http.get(
-      Uri.parse(
-          'https://www.thecocktaildb.com/api/json/v1/1/filter.php?g=Cocktail_glass'),
-    );
+  Future<List<savedDrinkModel>> getUserDrinks() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    String userId = user!.uid;
 
-    Map<String, dynamic> responseMap = jsonDecode(response.body);
-    List<dynamic> jsonList = responseMap['drinks'];
-    List<Cocktail> parsedPosts =
-        jsonList.map((e) => Cocktail.fromJson(e)).toList();
+    List<savedDrinkModel> userDrinks = [];
+
+    // Fetch drinks from Firestore for the current user
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
+        .instance
+        .collection('Users')
+        .doc(userId)
+        .collection('savedDrinks')
+        .get();
+
+    userDrinks = querySnapshot.docs
+        .map((document) => savedDrinkModel.fromJson(document.data()))
+        .toList();
 
     setState(() {
-      posts = parsedPosts;
-      isLoading = false;
+      savedDrinks = userDrinks;
     });
+
+    return userDrinks;
   }
 }

@@ -10,7 +10,7 @@ import 'package:inom_project/models/Recommendation.dart';
 import 'package:inom_project/models/filterSearchModel.dart';
 import 'package:inom_project/pages/DrinkDetails.dart';
 import 'package:inom_project/pages/SearchResults.dart';
-import 'package:inom_project/pages/Settings.dart';
+import 'package:inom_project/pages/UserProfile.dart';
 
 class Dashboard extends StatefulWidget {
   static const String routeName = "Dashboard";
@@ -60,7 +60,7 @@ class _SearchState extends State<Dashboard> {
             icon: const Icon(Icons.settings),
             color: const Color(0xFFD8F2F0),
             onPressed: () {
-              Navigator.pushNamed(context, Settings.routeName);
+              Navigator.pushNamed(context, UserProfile.routeName);
             },
           )
         ],
@@ -189,15 +189,30 @@ class _SearchState extends State<Dashboard> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.only(left: 20),
-          child: Text(
-            'Discover',
-            style: TextStyle(
-                color: Color(0xFF0F2D40),
-                fontSize: 18,
-                fontWeight: FontWeight.w600),
-          ),
+        Row(
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(left: 20),
+              child: Text(
+                'Discover',
+                style: TextStyle(
+                    color: Color(0xFF0F2D40),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                getRandom_List(0);
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(right: 20.0),
+                child: Icon(
+                  Icons.refresh,
+                ),
+              ),
+            ),
+          ],
         ),
         const SizedBox(
           height: 15,

@@ -37,75 +37,82 @@ class _ChangePassword extends State<ChangePassword> {
     GoogleSignInAccount? googleSignInAccount = GoogleSignIn().currentUser;
 
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 40.0,
-          ),
-          (currentUser?.providerData[0].photoURL != null)
-              ? CircleAvatar(
-                  radius: 65,
-                  backgroundImage: NetworkImage(
-                    currentUser?.providerData[0].photoURL ?? '',
-                  ),
-                )
-              : SvgPicture.asset(
-                  'assets/icons/profile.svg',
-                  // ignore: deprecated_member_use
-                  color: const Color(0xFF93dbd6),
-                  height: 120,
+      child: CustomScrollView(
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 40.0,
                 ),
-          const SizedBox(
-            height: 40.0,
-          ),
-          const SizedBox(
-            height: 20.0,
-          ),
-          FilledTextForm(
-            value: currentUser?.email,
-            labelText: "Email Address",
-            iconData: Icons.email,
-          ),
-          const SizedBox(
-            height: 20.0,
-          ),
-          PasswordField(
-            labelText: "Current Password",
-            hintText: "Enter your password",
-            iconData: Icons.lock,
-            obscureText: obscureText,
-            onTap: setPasswordVisibility,
-            controller: currentPasswordController,
-          ),
-          const SizedBox(
-            height: 20.0,
-          ),
-          PasswordField(
-            labelText: "New Password",
-            hintText: "Enter your password",
-            iconData: Icons.lock,
-            obscureText: obscureText,
-            onTap: setPasswordVisibility,
-            controller: newPasswordController,
-          ),
-          const SizedBox(
-            height: 20.0,
-          ),
-          PrimaryButton(
-            text: "Change Password",
-            iconData: Icons.logout,
-            onPressed: () {
-              _changePassword(
-                currentUser,
-                currentPasswordController.value.text,
-                newPasswordController.value.text,
-              );
-            },
-          ),
-          const SizedBox(
-            height: 20.0,
-          ),
+                (currentUser?.providerData[0].photoURL != null)
+                    ? CircleAvatar(
+                        radius: 65,
+                        backgroundImage: NetworkImage(
+                          currentUser?.providerData[0].photoURL ?? '',
+                        ),
+                      )
+                    : SvgPicture.asset(
+                        'assets/icons/profile.svg',
+                        // ignore: deprecated_member_use
+                        color: const Color(0xFF93dbd6),
+                        height: 120,
+                      ),
+                const SizedBox(
+                  height: 40.0,
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                FilledTextForm(
+                  value: currentUser?.email,
+                  labelText: "Email Address",
+                  iconData: Icons.email,
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                PasswordField(
+                  labelText: "Current Password",
+                  hintText: "Enter your password",
+                  iconData: Icons.lock,
+                  obscureText: obscureText,
+                  onTap: setPasswordVisibility,
+                  controller: currentPasswordController,
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                PasswordField(
+                  labelText: "New Password",
+                  hintText: "Enter your password",
+                  iconData: Icons.lock,
+                  obscureText: obscureText,
+                  onTap: setPasswordVisibility,
+                  controller: newPasswordController,
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                PrimaryButton(
+                  text: "Change Password",
+                  iconData: Icons.logout,
+                  onPressed: () {
+                    _changePassword(
+                      currentUser,
+                      currentPasswordController.value.text,
+                      newPasswordController.value.text,
+                    );
+                  },
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
