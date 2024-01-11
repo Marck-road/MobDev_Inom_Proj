@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:inom_project/models/savedDrinkModel.dart';
 
 class SavedDrinkDetails extends StatefulWidget {
@@ -101,23 +102,24 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
               ),
               child: GestureDetector(
                 onTap: () {
-                  switchToEditMode();
+                  removeSavedDrink(data);
                 },
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      'Edit Details ',
-                      style: TextStyle(
+                      isdrinkSaved ? 'Remove Drink ' : 'Save Drink ',
+                      style: const TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
                         color: Color(0xFF0F2D40),
                       ),
                     ),
-                    Icon(
-                      Icons.edit,
-                      size: 18,
-                      color: Color(0xFF0F2D40),
+                    SvgPicture.asset(
+                      'assets/icons/trash.svg',
+                      // ignore: deprecated_member_use
+                      color: Color.fromARGB(255, 44, 65, 63),
+                      height: 20,
                     ),
                   ],
                 ),
@@ -156,23 +158,24 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
               ),
               child: GestureDetector(
                 onTap: () {
-                  if (isdrinkSaved) {
-                    // Drink is already saved, perform removal
-                    removeSavedDrink(data);
-                  } else {
-                    // Drink is not saved, perform addition
-                    addSavedDrink(data);
-                  }
+                  switchToEditMode();
                 },
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      isdrinkSaved ? 'Drink Saved' : 'Save Drink',
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.white, // Set the text color
+                      'Edit Details ',
+                      // isdrinkSaved ? 'Drink Saved' : 'Save Drink',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                        color: Color(0xFF0F2D40),
                       ),
+                    ),
+                    Icon(
+                      Icons.edit,
+                      size: 18,
+                      color: Color(0xFF0F2D40),
                     ),
                   ],
                 ),

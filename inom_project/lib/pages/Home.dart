@@ -35,8 +35,13 @@ class _HomeState extends State<Home> {
               icon: Icon(Icons.dashboard),
               label: "Dashboard",
             ),
-            const BottomNavigationBarItem(
-              icon: Icon(Icons.search),
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                'assets/icons/glass.svg',
+                // ignore: deprecated_member_use
+                color: const Color(0xFF93dbd6),
+                height: 20,
+              ),
               label: "Saved Drinks",
             ),
             BottomNavigationBarItem(
