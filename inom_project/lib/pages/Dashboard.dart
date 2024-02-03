@@ -114,6 +114,7 @@ class _SearchState extends State<Dashboard> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
+                      Column(),
                       Image.network(
                         popularDrinks[index].drinkPic,
                         width: 200,

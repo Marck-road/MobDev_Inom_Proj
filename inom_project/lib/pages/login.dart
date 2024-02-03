@@ -185,6 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
       await storageService.saveData(item);
 
       try {
+        //Create E/P Account using user's email and a default password
         UserCredential userPassCredential =
             await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: googleUser.email,
