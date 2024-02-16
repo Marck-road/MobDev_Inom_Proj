@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inom_project/models/Cocktail.dart';
 import 'package:inom_project/pages/DrinkDetails.dart';
 
@@ -33,14 +34,30 @@ class SearchResults extends StatelessWidget {
         backgroundColor: const Color(0xFF4f000b),
       ),
       body: results.isEmpty || !gotResponses
-          ? const Center(
-              child: Text(
-                'No results found',
-                style: TextStyle(
-                  color: Color(0xFFf9dbbd),
-                  fontSize: 16,
+          ? Column(
+              children: [
+                const SizedBox(
+                  height: 140,
                 ),
-              ),
+                SvgPicture.asset(
+                  'assets/icons/kiwi.svg',
+                  // ignore: deprecated_member_use
+                  color: const Color(0xFFff9b54),
+                  height: 180,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Center(
+                  child: Text(
+                    'No results found',
+                    style: TextStyle(
+                      color: Color(0xFFff9b54),
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ],
             )
           : resultsContent(),
     );

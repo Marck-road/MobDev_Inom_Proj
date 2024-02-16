@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inom_project/models/savedDrinkModel.dart';
 import 'package:inom_project/pages/SavedDrinkDetails.dart';
 import 'package:inom_project/pages/UserProfile.dart';
@@ -100,17 +101,32 @@ class _SavedDrinksState extends State<SavedDrinks> {
         SliverList(
           delegate: SliverChildListDelegate([
             SizedBox(
-              // color: Color(0xFF296B73),
               height: 461,
               child: savedDrinks.isEmpty
-                  ? const Center(
-                      child: Text(
-                        'No saved drinks yet!',
-                        style: TextStyle(
-                          color: Color(0xFFf9dbbd),
-                          fontSize: 16,
+                  ? Column(
+                      children: [
+                        const SizedBox(
+                          height: 60,
                         ),
-                      ),
+                        SvgPicture.asset(
+                          'assets/icons/kiwi.svg',
+                          // ignore: deprecated_member_use
+                          color: const Color(0xFFff9b54),
+                          height: 180,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        const Center(
+                          child: Text(
+                            'No saved drinks yet!',
+                            style: TextStyle(
+                              color: Color(0xFFff9b54),
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ],
                     )
                   : dashboardContent(),
             ),
@@ -194,7 +210,7 @@ class _SavedDrinksState extends State<SavedDrinks> {
               height: 20.0,
             ),
             Image.asset(
-              'assets/pictures/kanpaiLogo.png',
+              'assets/pictures/altLogo.png',
               height: 210,
             ),
             const SizedBox(
