@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names, use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -5,8 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:inom_project/models/Cocktail.dart';
-import 'package:inom_project/models/PopSection.dart';
-import 'package:inom_project/models/Recommendation.dart';
 import 'package:inom_project/models/filterSearchModel.dart';
 import 'package:inom_project/pages/DrinkDetails.dart';
 import 'package:inom_project/pages/SearchResults.dart';
@@ -21,19 +21,18 @@ class Dashboard extends StatefulWidget {
 }
 
 class _SearchState extends State<Dashboard> {
-  List<ReccomendsModel> reccomendations = [];
-  List<PopModel> popVisits = [];
-  List<Cocktail> Alcoholic = [];
+  List<Cocktail> alcoholic = [];
   List<Cocktail> nonAloholic = [];
   List<Cocktail> popularDrinks = [];
   List<List<Cocktail>> randomDrink = List.filled(5, []);
 
   List<Cocktail> drink = [];
-  String searchBy = 'name';
+  String searchBy = 'Name';
   bool isLoading = true;
   bool isSearching = false;
   bool gotResponses = true;
 
+  @override
   void initState() {
     super.initState();
     getNonAlcoholic_List();
@@ -45,20 +44,24 @@ class _SearchState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xfffbfefe),
+      backgroundColor: const Color(0xFF450920),
       appBar: AppBar(
-        leading: const Icon(Icons.search),
+        leading: const Icon(
+          Icons.search,
+          color: Color(0xFFff9b54),
+        ),
         title: const Text(
           "Dashboard",
           style: TextStyle(
-            color: Color(0xFFD8F2F0),
+            color: Color(0xFFff9b54),
+            fontWeight: FontWeight.w600,
           ),
         ),
-        backgroundColor: const Color(0xFF3E8C84),
+        backgroundColor: const Color(0xFF4f000b),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
-            color: const Color(0xFFD8F2F0),
+            color: const Color(0xFFff9b54),
             onPressed: () {
               Navigator.pushNamed(context, UserProfile.routeName);
             },
@@ -90,7 +93,7 @@ class _SearchState extends State<Dashboard> {
           child: Text(
             'Popular Cocktails',
             style: TextStyle(
-                color: Color(0xFF0F2D40),
+                color: Color(0xFFff9b54),
                 fontSize: 18,
                 fontWeight: FontWeight.w600),
           ),
@@ -107,8 +110,8 @@ class _SearchState extends State<Dashboard> {
                   height: 230,
                   decoration: BoxDecoration(
                     color: index % 2 == 0
-                        ? const Color(0xFFD8F2F0) // Every 1st box color
-                        : const Color(0xFFB8ECD7), // Every 2nd box color
+                        ? const Color(0xFF720026) // Every 1st box color
+                        : const Color(0xFF89043d), // Every 2nd box color
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Column(
@@ -120,49 +123,49 @@ class _SearchState extends State<Dashboard> {
                         height: 100,
                       ),
                       Column(
-                        // mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             popularDrinks[index].drinkName,
                             style: const TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFF0F2D40),
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFFf9dbbd),
                               fontSize: 16,
                             ),
+                            textAlign: TextAlign.center,
                           ),
                         ],
                       ),
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => drinkDetails(
-                                    id: popularDrinks[index].drinkID,
-                                    drinkName: popularDrinks[index].drinkName),
-                              ));
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DrinkDetails(
+                                  id: popularDrinks[index].drinkID,
+                                  drinkName: popularDrinks[index].drinkName),
+                            ),
+                          );
                         },
                         child: Container(
                           height: 45,
                           width: 130,
                           decoration: BoxDecoration(
-                              gradient: const LinearGradient(
-                                begin: Alignment
-                                    .topLeft, // Start from the top-left corner
-                                end: Alignment
-                                    .bottomRight, // End at the bottom-right corner,
-                                colors: [
-                                  Color(0xFF97d3da),
-                                  Color(0xFFb1dee3),
-                                ],
-                              ),
-                              borderRadius: BorderRadius.circular(50)),
+                            gradient: const LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                Color(0xFFce4257),
+                                Color(0xFFa53860),
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(50),
+                          ),
                           child: const Center(
                             child: Text(
                               'View',
                               style: TextStyle(
-                                color: Color(0xFF194759),
+                                color: Color(0xFFf9dbbd),
                                 fontWeight: FontWeight.w600,
                                 fontSize: 14,
                               ),
@@ -196,7 +199,7 @@ class _SearchState extends State<Dashboard> {
               child: Text(
                 'Discover',
                 style: TextStyle(
-                    color: Color(0xFF0F2D40),
+                    color: Color(0xFFff9b54),
                     fontSize: 18,
                     fontWeight: FontWeight.w600),
               ),
@@ -205,10 +208,11 @@ class _SearchState extends State<Dashboard> {
               onTap: () {
                 getRandom_List(0);
               },
-              child: Padding(
-                padding: const EdgeInsets.only(right: 20.0),
+              child: const Padding(
+                padding: EdgeInsets.only(right: 20.0),
                 child: Icon(
                   Icons.refresh,
+                  color: Color(0xFFff9b54),
                 ),
               ),
             ),
@@ -227,8 +231,8 @@ class _SearchState extends State<Dashboard> {
                     height: 230,
                     decoration: BoxDecoration(
                       color: index % 2 == 0
-                          ? const Color(0xFFD8F2F0) // Every 1st box color
-                          : const Color(0xFFB8ECD7), // Every 2nd box color
+                          ? const Color(0xFF720026) // Even box color
+                          : const Color(0xFF89043d), // Odd  box color
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Column(
@@ -240,29 +244,29 @@ class _SearchState extends State<Dashboard> {
                           height: 100,
                         ),
                         Column(
-                          // mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               randomDrink[index][0].drinkName,
                               style: const TextStyle(
                                 fontWeight: FontWeight.w500,
-                                color: Color(0xFF0F2D40),
+                                color: Color(0xFFf9dbbd),
                                 fontSize: 16,
                               ),
+                              textAlign: TextAlign.center,
                             ),
                           ],
                         ),
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => drinkDetails(
-                                      id: randomDrink[index][0].drinkID,
-                                      drinkName:
-                                          randomDrink[index][0].drinkName),
-                                ));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DrinkDetails(
+                                    id: randomDrink[index][0].drinkID,
+                                    drinkName: randomDrink[index][0].drinkName),
+                              ),
+                            );
                           },
                           child: Container(
                             height: 45,
@@ -274,8 +278,8 @@ class _SearchState extends State<Dashboard> {
                                   end: Alignment
                                       .bottomRight, // End at the bottom-right corner,
                                   colors: [
-                                    Color(0xFF97d3da),
-                                    Color(0xFFb1dee3),
+                                    Color(0xFFce4257),
+                                    Color(0xFFa53860),
                                   ],
                                 ),
                                 borderRadius: BorderRadius.circular(50)),
@@ -283,7 +287,7 @@ class _SearchState extends State<Dashboard> {
                               child: Text(
                                 'View',
                                 style: TextStyle(
-                                  color: Color(0xFF194759),
+                                  color: Color(0xFFf9dbbd),
                                   fontWeight: FontWeight.w600,
                                   fontSize: 14,
                                 ),
@@ -317,7 +321,7 @@ class _SearchState extends State<Dashboard> {
           child: Text(
             'Alcoholic',
             style: TextStyle(
-              color: Color(0xFF0F2D40),
+              color: Color(0xFFff9b54),
               fontSize: 18,
               fontWeight: FontWeight.w600,
             ),
@@ -330,7 +334,7 @@ class _SearchState extends State<Dashboard> {
             separatorBuilder: (context, index) => const SizedBox(
               height: 25,
             ),
-            itemCount: Alcoholic.length,
+            itemCount: alcoholic.length,
             shrinkWrap: true,
             padding: const EdgeInsets.only(
               left: 20,
@@ -342,19 +346,16 @@ class _SearchState extends State<Dashboard> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => drinkDetails(
-                          id: Alcoholic[index].drinkID,
-                          drinkName: Alcoholic[index].drinkName,
+                        builder: (context) => DrinkDetails(
+                          id: alcoholic[index].drinkID,
+                          drinkName: alcoholic[index].drinkName,
                         ),
                       ));
                 },
                 child: Container(
                   height: 100,
                   decoration: BoxDecoration(
-                      color: const Color(0xFFD8F2F0),
-                      // gradient: LinearGradient(
-                      //   colors: [Color(0xFF296B73), Color(0xFFB8ECD7)],
-                      // ),
+                      color: const Color(0xFF720026),
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
@@ -371,7 +372,7 @@ class _SearchState extends State<Dashboard> {
                         width: 10,
                       ),
                       Image.network(
-                        Alcoholic[index].drinkPic,
+                        alcoholic[index].drinkPic,
                         width: 120,
                         height: 150,
                       ),
@@ -384,10 +385,10 @@ class _SearchState extends State<Dashboard> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              Alcoholic[index].drinkName,
+                              alcoholic[index].drinkName,
                               style: const TextStyle(
                                 fontWeight: FontWeight.w500,
-                                color: Color(0xFF0F2D40),
+                                color: Color(0xFFf9dbbd),
                                 fontSize: 16,
                               ),
                             ),
@@ -398,7 +399,7 @@ class _SearchState extends State<Dashboard> {
                           onTap: () {},
                           child: const Icon(
                             Icons.arrow_forward,
-                            color: Color(0xFF0F2D40),
+                            color: Color(0xFFf9dbbd),
                           )),
                       const SizedBox(
                         width: 10,
@@ -424,7 +425,7 @@ class _SearchState extends State<Dashboard> {
           child: Text(
             'Non-Alcoholic',
             style: TextStyle(
-              color: Color(0xFF0F2D40),
+              color: Color(0xFFff9b54),
               fontSize: 18,
               fontWeight: FontWeight.w600,
             ),
@@ -449,7 +450,7 @@ class _SearchState extends State<Dashboard> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => drinkDetails(
+                        builder: (context) => DrinkDetails(
                             id: nonAloholic[index].drinkID,
                             drinkName: nonAloholic[index].drinkName),
                       ));
@@ -457,20 +458,17 @@ class _SearchState extends State<Dashboard> {
                 child: Container(
                   height: 100,
                   decoration: BoxDecoration(
-                      color: const Color(0xFFD8F2F0),
-                      // gradient: LinearGradient(
-
-                      //   colors: [Color(0xFF296B73), Color(0xFFB8ECD7)],
-                      // ),
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color(0xff101617).withOpacity(0.07),
-                          offset: const Offset(0, 10),
-                          blurRadius: 40,
-                          spreadRadius: 0,
-                        )
-                      ]),
+                    color: const Color(0xFF89043d),
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xff101617).withOpacity(0.07),
+                        offset: const Offset(0, 10),
+                        blurRadius: 40,
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -494,7 +492,7 @@ class _SearchState extends State<Dashboard> {
                               nonAloholic[index].drinkName,
                               style: const TextStyle(
                                 fontWeight: FontWeight.w500,
-                                color: Color(0xFF0F2D40),
+                                color: Color(0xFFf9dbbd),
                                 fontSize: 16,
                               ),
                             ),
@@ -502,11 +500,12 @@ class _SearchState extends State<Dashboard> {
                         ),
                       ),
                       GestureDetector(
-                          onTap: () {},
-                          child: const Icon(
-                            Icons.arrow_forward,
-                            color: Color(0xFF0F2D40),
-                          )),
+                        onTap: () {},
+                        child: const Icon(
+                          Icons.arrow_forward,
+                          color: Color(0xFFf9dbbd),
+                        ),
+                      ),
                       const SizedBox(
                         width: 10,
                       ),
@@ -555,16 +554,16 @@ class _SearchState extends State<Dashboard> {
         },
         decoration: InputDecoration(
             filled: true,
-            fillColor: const Color(0xFFD8F2F0),
+            fillColor: const Color(0xFFefe9e7),
             contentPadding: const EdgeInsets.all(15),
             hintText: 'Search by $searchBy',
             hintStyle: const TextStyle(
-              color: Color(0xFF0F2D40),
+              color: Color(0xFF4f000b),
               fontSize: 14,
             ),
             prefixIcon: const Icon(
               Icons.search,
-              color: Color(0xFF0F2D40),
+              color: Color(0xFF4f000b),
             ),
             suffixIcon: GestureDetector(
               onTap: () {
@@ -578,13 +577,13 @@ class _SearchState extends State<Dashboard> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       VerticalDivider(
-                          color: Color(0xFF194759),
-                          thickness: 0.1,
+                          color: Color(0xFF4f000b),
+                          thickness: 1,
                           indent: 10,
                           endIndent: 10),
                       Icon(
                         Icons.tune,
-                        color: Color(0xFF0F2D40),
+                        color: Color(0xFF4f000b),
                       ),
                     ],
                   ),
@@ -609,7 +608,14 @@ class _SearchState extends State<Dashboard> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Select a choice'),
+          backgroundColor: const Color(0xFF720026),
+          title: const Text(
+            'Select a choice',
+            style: TextStyle(
+              color: Color(0xFFff9b54),
+              fontWeight: FontWeight.w600,
+            ),
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -638,7 +644,7 @@ class _SearchState extends State<Dashboard> {
   Future<void> updateList(String searchValue) async {
     String baseUrl = 'https://www.thecocktaildb.com/api/json/v1/1/';
     String endpoint = '';
-    // Determine the endpoint based on the value of searchBy
+
     switch (searchBy) {
       case 'Name':
         endpoint = 'search.php?s=$searchValue';
@@ -698,7 +704,7 @@ class _SearchState extends State<Dashboard> {
         jsonList.map((e) => Cocktail.fromJson(e)).toList();
 
     setState(() {
-      Alcoholic = parsedAlcohol;
+      alcoholic = parsedAlcohol;
       isLoading = false;
     });
   }
@@ -747,17 +753,14 @@ class _SearchState extends State<Dashboard> {
 
   Future<void> getPopular_List() async {
     try {
-      // Load the JSON file from the assets directory
+      // Load the JSON file from personalized API
       String jsonString =
           await rootBundle.loadString('assets/recommended.json');
 
-      // Parse the JSON data
       Map<String, dynamic> parsedJson = jsonDecode(jsonString);
 
-      // Extract the drinks list
       List<dynamic> jsonList = parsedJson['drinks'];
 
-      // Convert the JSON list to Cocktail objects
       List<Cocktail> parsedPopularDrinks =
           jsonList.map((e) => Cocktail.fromJson(e)).toList();
 
@@ -766,9 +769,7 @@ class _SearchState extends State<Dashboard> {
         isLoading = false;
       });
     } catch (error) {
-      // Handle errors gracefully
       print("Error loading JSON data: $error");
-      // Display an error message to the user, or implement other error handling strategies
     }
   }
 }

@@ -5,19 +5,19 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:inom_project/models/FilledTextForm.dart';
 import 'package:inom_project/models/PasswordField.dart';
 import 'package:inom_project/models/PrimaryButton.dart';
+import 'package:inom_project/pages/home.dart';
 
-class ChangePassword extends StatefulWidget {
-  static const String routeName = "ChangePassword";
+class FirstChangePass extends StatefulWidget {
+  static const String routeName = "FirstChangePassword";
 
-  const ChangePassword({super.key});
+  const FirstChangePass({super.key});
   @override
-  _ChangePassword createState() => _ChangePassword();
+  _FirstTimeChangePassword createState() => _FirstTimeChangePassword();
 }
 
-class _ChangePassword extends State<ChangePassword> {
+class _FirstTimeChangePassword extends State<FirstChangePass> {
   TextEditingController emailController = TextEditingController();
-  TextEditingController currentPasswordController = TextEditingController();
-  TextEditingController newPasswordController = TextEditingController();
+  TextEditingController PasswordController = TextEditingController();
 
   bool obscureText = true;
   @override
@@ -29,7 +29,7 @@ class _ChangePassword extends State<ChangePassword> {
           color: Color(0xFFff9b54), // Set the color for the back button
         ),
         title: const Text(
-          "Change Password",
+          "Set up Account",
           style: TextStyle(
             color: Color(0xFFff9b54),
             fontWeight: FontWeight.w600,
@@ -91,9 +91,6 @@ class _ChangePassword extends State<ChangePassword> {
                         textAlign: TextAlign.center,
                       ),
                 const SizedBox(
-                  height: 10.0,
-                ),
-                const SizedBox(
                   height: 20.0,
                 ),
                 SizedBox(
@@ -110,26 +107,12 @@ class _ChangePassword extends State<ChangePassword> {
                 SizedBox(
                   width: 380,
                   child: PasswordField(
-                    labelText: "Current Password",
+                    labelText: "Password",
                     hintText: "Enter your password",
                     iconData: Icons.lock,
                     obscureText: obscureText,
                     onTap: setPasswordVisibility,
-                    controller: currentPasswordController,
-                  ),
-                ),
-                const SizedBox(
-                  height: 20.0,
-                ),
-                SizedBox(
-                  width: 380,
-                  child: PasswordField(
-                    labelText: "New Password",
-                    hintText: "Enter your password",
-                    iconData: Icons.lock,
-                    obscureText: obscureText,
-                    onTap: setPasswordVisibility,
-                    controller: newPasswordController,
+                    controller: PasswordController,
                   ),
                 ),
                 const SizedBox(
@@ -138,13 +121,13 @@ class _ChangePassword extends State<ChangePassword> {
                 SizedBox(
                   width: 240,
                   child: PrimaryButton(
-                    text: "Change Password",
-                    iconData: Icons.key,
+                    text: "Set up Account",
+                    iconData: Icons.check,
                     onPressed: () {
                       _changePassword(
                         currentUser,
-                        currentPasswordController.value.text,
-                        newPasswordController.value.text,
+                        "123456",
+                        PasswordController.value.text,
                       );
                     },
                   ),
@@ -184,15 +167,22 @@ class _ChangePassword extends State<ChangePassword> {
       currentUser.updatePassword(newPassword).then((_) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Successfully changed password!'),
+            content: Text('Successfully created account!'),
             duration: Duration(seconds: 3),
           ),
+        );
+
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          Home.routeName,
+          (route) =>
+              false, // This will remove all previous routes from the stack
         );
       }).catchError((error) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text(
-                'Error changing password. Please check password credentials'),
+                'Error setting up password. Please check password credentials'),
             duration: Duration(seconds: 3),
           ),
         );
@@ -201,7 +191,7 @@ class _ChangePassword extends State<ChangePassword> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(
-              'Error changing password. Please check password credentials'),
+              'Error setting up password. Please check password credentials'),
           duration: Duration(seconds: 3),
         ),
       );

@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-class PrimaryButton extends StatelessWidget {
+class LoginButton extends StatelessWidget {
   final String text;
-  final IconData iconData;
+  final String? uniqueIcon;
+  final IconData? iconData;
   final VoidCallback onPressed;
+  final double textSize;
 
-  const PrimaryButton({
+  const LoginButton({
     super.key,
+    this.uniqueIcon,
     required this.text,
     required this.iconData,
     required this.onPressed,
+    required this.textSize,
   });
 
   @override
@@ -17,10 +22,6 @@ class PrimaryButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20.0,
-          vertical: 10.0,
-        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0),
         ),
@@ -29,20 +30,27 @@ class PrimaryButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            iconData,
-            color: const Color(0xFFf9dbbd),
-          ),
+          if (iconData != null)
+            Icon(
+              iconData,
+              color: const Color(0xFF4f000b),
+              size: 24,
+            ),
+          if (uniqueIcon != null)
+            SvgPicture.asset(
+              uniqueIcon!,
+              height: 17,
+            ),
           const SizedBox(
-            width: 10.0,
+            width: 0.0,
           ),
           Expanded(
             child: Text(
               text,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 17.0,
-                color: Color(0xFFf9dbbd),
+              style: TextStyle(
+                fontSize: textSize,
+                color: const Color(0xFFefe9e7),
               ),
             ),
           )

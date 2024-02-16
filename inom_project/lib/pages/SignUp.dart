@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inom_project/models/CustomTextFormField.dart';
 import 'package:inom_project/models/PasswordField.dart';
-import 'package:inom_project/models/PrimaryButton.dart';
 import 'package:inom_project/pages/Home.dart';
 import 'package:inom_project/pages/login.dart';
 
@@ -23,7 +21,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xffD8F2F0),
+        backgroundColor: const Color(0xFF450920),
         body: ListView(
           children: [
             const SizedBox(
@@ -40,19 +38,23 @@ class _SignUpPageState extends State<SignUpPage> {
   Column Logo() {
     return Column(
       children: [
-        SvgPicture.asset(
-          'assets/icons/globe.svg',
+        Image.asset(
+          'assets/pictures/kanpaiLogo.png',
           height: 200,
         ),
         const SizedBox(
           height: 10.0,
         ),
-        const Text(
-          'KANPAI',
-          style: TextStyle(
-            fontFamily: 'Pulchella',
-            fontSize: 38,
-            color: Color(0xFF0F2D40),
+        Container(
+          // margin: EdgeInsets.only(left: 25.0),
+          // alignment: Alignment.centerLeft,
+          child: const Text(
+            'Create an Account',
+            style: TextStyle(
+              fontFamily: 'Pulchella',
+              fontSize: 38,
+              color: Color(0xFFff9b54),
+            ),
           ),
         )
       ],
@@ -90,22 +92,48 @@ class _SignUpPageState extends State<SignUpPage> {
               const SizedBox(
                 height: 20.0,
               ),
-              PrimaryButton(
-                text: "Sign up",
-                iconData: Icons.login,
-                onPressed: () {
-                  register(
-                    emailController.value.text,
-                    passwordController.value.text,
-                  );
-                },
+              SizedBox(
+                width: 170,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: () {
+                    register(
+                      emailController.value.text,
+                      passwordController.value.text,
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50.0),
+                    ),
+                    backgroundColor: const Color(0xFFce4257),
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Sign up",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Color(0xFFefe9e7),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 20.0,
               ),
               Row(
                 children: [
-                  const Text("Already have an account? "),
+                  const Text(
+                    "Already have an account? ",
+                    style: TextStyle(
+                      color: Color(0xFFce4257),
+                    ),
+                  ),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushReplacementNamed(
@@ -116,7 +144,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: const Text(
                       "Login",
                       style: TextStyle(
-                        color: Colors.blue,
+                        color: Color(0xFFff7f51),
                       ),
                     ),
                   ),
@@ -144,14 +172,34 @@ class _SignUpPageState extends State<SignUpPage> {
       );
 
       // ignore: use_build_context_synchronously
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Successfully created account!'),
+          duration: Duration(seconds: 3), // You can customize the duration
+        ),
+      );
+
       await Navigator.pushNamedAndRemoveUntil(
         context,
         Home.routeName,
         (route) => false, // This will remove all previous routes from the stack
       );
     } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Error signing up. Please try again.'),
+          duration: Duration(seconds: 3), // You can customize the duration
+        ),
+      );
       print(e.message);
     } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Error signing up. Please try again.'),
+          duration: Duration(seconds: 3), // You can customize the duration
+        ),
+      );
       print(e);
     }
   }

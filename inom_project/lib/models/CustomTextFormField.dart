@@ -16,19 +16,28 @@ class CustomTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
-        prefixIcon: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-          child: Icon(iconData),
-        ),
-        labelText: labelText,
-        hintText: hintText,
-        border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(30.0),
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFFefe9e7),
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: TextFormField(
+        controller: controller,
+        keyboardType: TextInputType.emailAddress,
+        decoration: InputDecoration(
+          labelStyle: const TextStyle(color: Color(0xFF4f000b)),
+          hintStyle: const TextStyle(color: Color(0xFF4f000b)),
+          prefixIconColor: Color(0xFF4f000b),
+          prefixIcon: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: Icon(iconData),
+          ),
+          labelText: labelText,
+          hintText: hintText,
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(30.0),
+            ),
           ),
         ),
       ),

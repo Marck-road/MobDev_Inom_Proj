@@ -18,14 +18,29 @@ class SearchResults extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFF450920),
       appBar: AppBar(
-        title: Text('Search Results for "$searchValue"'),
-        backgroundColor: const Color(0xFF3E8C84),
+        iconTheme: const IconThemeData(
+          color: Color(0xFFff9b54), // Set the color for the back button
+        ),
+        title: Text(
+          'Search Results for "$searchValue"',
+          style: const TextStyle(
+            color: Color(0xFFff9b54),
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        backgroundColor: const Color(0xFF4f000b),
       ),
       body: results.isEmpty || !gotResponses
           ? const Center(
-              child: Text('No results found'),
+              child: Text(
+                'No results found',
+                style: TextStyle(
+                  color: Color(0xFFf9dbbd),
+                  fontSize: 16,
+                ),
+              ),
             )
           : resultsContent(),
     );
@@ -38,16 +53,17 @@ class SearchResults extends StatelessWidget {
         return GestureDetector(
           onTap: () {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => drinkDetails(
-                      id: results[index].drinkID,
-                      drinkName: results[index].drinkName),
-                ));
+              context,
+              MaterialPageRoute(
+                builder: (context) => DrinkDetails(
+                    id: results[index].drinkID,
+                    drinkName: results[index].drinkName),
+              ),
+            );
           },
           child: Container(
             height: 115,
-            color: const Color(0xFFD8F2F0),
+            color: const Color(0xFF720026),
             margin: const EdgeInsets.all(10),
             padding: const EdgeInsets.symmetric(
               horizontal: 10.0,
@@ -71,6 +87,7 @@ class SearchResults extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
+                          color: Color(0xFFf9dbbd),
                         ),
                       ),
                     ],
@@ -79,7 +96,7 @@ class SearchResults extends StatelessWidget {
                 GestureDetector(
                   child: const Icon(
                     Icons.arrow_forward,
-                    color: Color(0xFF0F2D40),
+                    color: Color(0xFFf9dbbd),
                   ),
                 )
               ],

@@ -19,9 +19,19 @@ class _UserProfile extends State<UserProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF450920),
       appBar: AppBar(
-        title: const Text("Settings"),
-        backgroundColor: const Color(0xFF3E8C84),
+        iconTheme: const IconThemeData(
+          color: Color(0xFFff9b54),
+        ),
+        title: const Text(
+          "Settings",
+          style: TextStyle(
+            color: Color(0xFFff9b54),
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        backgroundColor: const Color(0xFF4f000b),
       ),
       body: settingsContent(),
     );
@@ -49,7 +59,7 @@ class _UserProfile extends State<UserProfile> {
               : SvgPicture.asset(
                   'assets/icons/profile.svg',
                   // ignore: deprecated_member_use
-                  color: const Color(0xFF93dbd6),
+                  color: const Color(0xFFff9b54),
                   height: 120,
                 ),
           const SizedBox(
@@ -60,13 +70,15 @@ class _UserProfile extends State<UserProfile> {
                   'Welcome back, ${currentUser?.providerData[0].displayName}! \nEmail: ${currentUser?.email}',
                   style: const TextStyle(
                     fontSize: 15,
+                    color: Color(0xFFf9dbbd),
                   ),
                   textAlign: TextAlign.center,
                 )
               : Text(
-                  'Email: (${currentUser?.email})!',
+                  'Email: ${currentUser?.email}!',
                   style: const TextStyle(
                     fontSize: 15,
+                    color: Color(0xFFf9dbbd),
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -79,11 +91,17 @@ class _UserProfile extends State<UserProfile> {
             },
             child: Container(
               height: 30,
-              width: 200, // Set the desired width
+              width: 200,
               decoration: BoxDecoration(
-                color: Colors.blueGrey, // Set the background color here
-                borderRadius:
-                    BorderRadius.circular(8), // Optional: add rounded corners
+                gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color(0xFFce4257),
+                    Color(0xFFa53860),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(8),
               ),
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -93,12 +111,12 @@ class _UserProfile extends State<UserProfile> {
                   ),
                   SizedBox(
                     width: 8,
-                  ), // Optional: add spacing between icon and text
+                  ),
                   Text(
                     'Edit Password',
                     style: TextStyle(
                       fontSize: 12,
-                      color: Colors.white, // Set the text color
+                      color: Color(0xFFf9dbbd),
                     ),
                   ),
                 ],
@@ -111,11 +129,17 @@ class _UserProfile extends State<UserProfile> {
           isAccountLinked()
               ? Container(
                   height: 30,
-                  width: 200, // Set the desired width
+                  width: 200,
                   decoration: BoxDecoration(
-                    color: Colors.blueGrey, // Set the background color here
-                    borderRadius: BorderRadius.circular(
-                        8), // Optional: add rounded corners
+                    gradient: const LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Color(0xFFce4257),
+                        Color(0xFFa53860),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -126,12 +150,12 @@ class _UserProfile extends State<UserProfile> {
                       ),
                       const SizedBox(
                         width: 8,
-                      ), // Optional: add spacing between icon and text
+                      ),
                       const Text(
                         'Google Account Linked',
                         style: TextStyle(
                           fontSize: 12,
-                          color: Colors.white, // Set the text color
+                          color: Color(0xFFf9dbbd),
                         ),
                       ),
                       const Icon(
@@ -147,11 +171,17 @@ class _UserProfile extends State<UserProfile> {
                   },
                   child: Container(
                     height: 30,
-                    width: 200, // Set the desired width
+                    width: 200,
                     decoration: BoxDecoration(
-                      color: Colors.blueGrey, // Set the background color here
-                      borderRadius: BorderRadius.circular(
-                          8), // Optional: add rounded corners
+                      gradient: const LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Color(0xFFce4257),
+                          Color(0xFFa53860),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -162,12 +192,12 @@ class _UserProfile extends State<UserProfile> {
                         ),
                         const SizedBox(
                           width: 8,
-                        ), // Optional: add spacing between icon and text
+                        ),
                         const Text(
                           'Link Google Account',
                           style: TextStyle(
                             fontSize: 12,
-                            color: Colors.white, // Set the text color
+                            color: Color(0xFFf9dbbd),
                           ),
                         ),
                       ],
@@ -184,6 +214,9 @@ class _UserProfile extends State<UserProfile> {
               iconData: Icons.logout,
               onPressed: logout,
             ),
+          ),
+          const SizedBox(
+            height: 230.0,
           ),
         ],
       ),
@@ -231,8 +264,21 @@ class _UserProfile extends State<UserProfile> {
       if (currentUser != null && !currentUser.isAnonymous) {
         await currentUser.linkWithCredential(googleCredential);
         Navigator.pushReplacementNamed(context, UserProfile.routeName);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Account successfully linked!'),
+            duration: Duration(seconds: 3),
+          ),
+        );
       }
     } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Account linking failed!'),
+          duration: Duration(seconds: 3),
+        ),
+      );
       print(e);
     }
   }

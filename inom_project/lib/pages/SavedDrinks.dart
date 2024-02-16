@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:inom_project/models/savedDrinkModel.dart';
 import 'package:inom_project/pages/SavedDrinkDetails.dart';
 import 'package:inom_project/pages/UserProfile.dart';
@@ -30,18 +29,23 @@ class _SavedDrinksState extends State<SavedDrinks> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xfffbfefe),
+      backgroundColor: const Color(0xFF450920),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF3E8C84),
+        backgroundColor: const Color(0xFF4f000b),
         leading: const Icon(
           Icons.home,
-          color: Color(0xFFD8F2F0),
+          color: Color(0xFFff9b54),
         ),
-        title: const Text("Saved Drinks"),
+        title: const Text(
+          "Saved Drinks",
+          style: TextStyle(
+            color: Color(0xFFff9b54),
+          ),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
-            color: Color(0xFFD8F2F0),
+            color: const Color(0xFFff9b54),
             onPressed: () {
               Navigator.pushNamed(context, UserProfile.routeName);
             },
@@ -71,19 +75,20 @@ class _SavedDrinksState extends State<SavedDrinks> {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF296B73),
+                        color: Color(0xFFff9b54),
                       ),
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   GestureDetector(
                     onTap: () {
                       getUserDrinks();
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 20.0),
+                    child: const Padding(
+                      padding: EdgeInsets.only(right: 20.0),
                       child: Icon(
                         Icons.refresh,
+                        color: Color(0xFFff9b54),
                       ),
                     ),
                   ),
@@ -97,7 +102,17 @@ class _SavedDrinksState extends State<SavedDrinks> {
             SizedBox(
               // color: Color(0xFF296B73),
               height: 461,
-              child: dashboardContent(),
+              child: savedDrinks.isEmpty
+                  ? const Center(
+                      child: Text(
+                        'No saved drinks yet!',
+                        style: TextStyle(
+                          color: Color(0xFFf9dbbd),
+                          fontSize: 16,
+                        ),
+                      ),
+                    )
+                  : dashboardContent(),
             ),
           ]),
         ),
@@ -121,7 +136,7 @@ class _SavedDrinksState extends State<SavedDrinks> {
           },
           child: Container(
             height: 115,
-            color: const Color(0xFFD8F2F0),
+            color: const Color(0xFF720026),
             margin: const EdgeInsets.only(
               top: 10,
               left: 20,
@@ -150,7 +165,7 @@ class _SavedDrinksState extends State<SavedDrinks> {
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
-                            color: Color(0xFF0F2D40),
+                            color: Color(0xFFf9dbbd),
                           )),
                     ],
                   ),
@@ -158,7 +173,7 @@ class _SavedDrinksState extends State<SavedDrinks> {
                 GestureDetector(
                   child: const Icon(
                     Icons.arrow_forward,
-                    color: Color(0xFF0F2D40),
+                    color: Color(0xFFf9dbbd),
                   ),
                 )
               ],
@@ -178,21 +193,13 @@ class _SavedDrinksState extends State<SavedDrinks> {
             const SizedBox(
               height: 20.0,
             ),
-            SvgPicture.asset(
-              'assets/icons/globe.svg',
-              height: 140,
+            Image.asset(
+              'assets/pictures/kanpaiLogo.png',
+              height: 210,
             ),
             const SizedBox(
               height: 5.0,
             ),
-            const Text(
-              'GEOEXPLORER',
-              style: TextStyle(
-                fontFamily: 'Pulchella',
-                fontSize: 32,
-                color: Color(0xFF0F2D40),
-              ),
-            )
           ],
         ),
       ],

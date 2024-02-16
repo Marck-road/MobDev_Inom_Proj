@@ -33,17 +33,25 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
   @override
   void initState() {
     super.initState();
-    // Call isDrinkSaved when the widget is first created
     isDrinkSaved(widget.id);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFBFEFE),
+      backgroundColor: const Color(0xFF450920),
       appBar: AppBar(
-        title: Text(widget.drinkName),
-        backgroundColor: const Color(0xFF3E8C84),
+        iconTheme: const IconThemeData(
+          color: Color(0xFFff9b54),
+        ),
+        title: Text(
+          widget.drinkName,
+          style: const TextStyle(
+            color: Color(0xFFff9b54),
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        backgroundColor: const Color(0xFF4f000b),
       ),
       body: FutureBuilder(
           future: callDatabase(),
@@ -83,11 +91,11 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
         padding: const EdgeInsets.only(left: 20, right: 20),
         decoration: BoxDecoration(
           gradient: const LinearGradient(
-            begin: Alignment.topLeft, // Start from the top-left corner
-            end: Alignment.bottomRight, // End at the bottom-right corner,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
             colors: [
-              Color(0xFFD8F2F0),
-              Color(0xFFB8ECD7),
+              Color(0xFFff9b54),
+              Color(0xFF89043d),
             ],
           ),
           borderRadius: BorderRadius.circular(30.0),
@@ -112,13 +120,13 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
                       style: const TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
-                        color: Color(0xFF0F2D40),
+                        color: Color(0xFF4f000b),
                       ),
                     ),
                     SvgPicture.asset(
                       'assets/icons/trash.svg',
                       // ignore: deprecated_member_use
-                      color: Color.fromARGB(255, 44, 65, 63),
+                      color: const Color(0xFF4f000b),
                       height: 20,
                     ),
                   ],
@@ -126,7 +134,7 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
               ),
             ),
             const SizedBox(
-              height: 15, // Adjust the height to your preference
+              height: 15,
             ),
             Image.network(
               data.pictureUrl,
@@ -134,7 +142,7 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
               height: 200,
             ),
             const SizedBox(
-              height: 15, // Adjust the height to your preference
+              height: 15,
             ),
             Text(
               data.drinkName,
@@ -142,19 +150,25 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w700,
-                color: Color(0xFF0F2D40),
+                color: Color(0xFFf9dbbd),
               ),
             ),
             const SizedBox(
-              height: 10, // Adjust the height to your preference
+              height: 10,
             ),
             Container(
               height: 30,
-              width: 120, // Set the desired width
+              width: 120,
               decoration: BoxDecoration(
-                color: Colors.blueGrey, // Set the background color here
-                borderRadius:
-                    BorderRadius.circular(8), // Optional: add rounded corners
+                gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color(0xFFce4257),
+                    Color(0xFFa53860),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(8),
               ),
               child: GestureDetector(
                 onTap: () {
@@ -165,24 +179,23 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
                   children: [
                     Text(
                       'Edit Details ',
-                      // isdrinkSaved ? 'Drink Saved' : 'Save Drink',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
-                        color: Color(0xFF0F2D40),
+                        color: Color(0xFFf9dbbd),
                       ),
                     ),
                     Icon(
                       Icons.edit,
                       size: 18,
-                      color: Color(0xFF0F2D40),
+                      color: Color(0xFFf9dbbd),
                     ),
                   ],
                 ),
               ),
             ),
             const SizedBox(
-              height: 10, // Adjust the height to your preference
+              height: 10,
             ),
             Container(
               width: 1200,
@@ -199,7 +212,10 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
                           children: [
                             const Text(
                               'Category:',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFFf9dbbd),
+                              ),
                             ),
                             const SizedBox(
                               width: 56,
@@ -208,6 +224,9 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
                                 child: Text(
                               data.category,
                               textAlign: TextAlign.left,
+                              style: const TextStyle(
+                                color: Color(0xFFf9dbbd),
+                              ),
                             )),
                           ],
                         ),
@@ -216,15 +235,21 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
                           children: [
                             const Text(
                               'Type of Drink:',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFFf9dbbd),
+                              ),
                             ),
                             const SizedBox(
-                              width: 30,
+                              width: 29,
                             ),
                             Expanded(
                                 child: Text(
                               data.type,
                               textAlign: TextAlign.left,
+                              style: const TextStyle(
+                                color: Color(0xFFf9dbbd),
+                              ),
                             )),
                           ],
                         ),
@@ -232,14 +257,20 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text('Tags:',
-                                style: TextStyle(fontWeight: FontWeight.bold)),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFFf9dbbd),
+                                )),
                             const SizedBox(
-                              width: 89,
+                              width: 90,
                             ),
                             Expanded(
                               child: Text(
                                 data.tags ?? "None",
                                 textAlign: TextAlign.left,
+                                style: const TextStyle(
+                                  color: Color(0xFFf9dbbd),
+                                ),
                               ),
                             ),
                           ],
@@ -248,13 +279,21 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text('Glass:',
-                                style: TextStyle(fontWeight: FontWeight.bold)),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFFf9dbbd),
+                                )),
                             const SizedBox(
-                              width: 86,
+                              width: 85,
                             ),
-                            Text(
-                              data.glass,
-                              textAlign: TextAlign.left,
+                            Expanded(
+                              child: Text(
+                                data.glass,
+                                textAlign: TextAlign.left,
+                                style: const TextStyle(
+                                  color: Color(0xFFf9dbbd),
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -264,14 +303,18 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
                             const Text('Ingredients:',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
+                                  color: Color(0xFFf9dbbd),
                                 )),
                             const SizedBox(
-                              width: 43,
+                              width: 41,
                             ),
                             Expanded(
                               child: Text(
                                 data.ingredients,
                                 textAlign: TextAlign.left,
+                                style: const TextStyle(
+                                  color: Color(0xFFf9dbbd),
+                                ),
                               ),
                             ),
                           ],
@@ -281,7 +324,10 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
                           children: [
                             Text(
                               'Instructions:',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFFf9dbbd),
+                              ),
                             ),
                             SizedBox(
                               width: 40,
@@ -294,13 +340,15 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
                             Expanded(
                               child: Container(
                                 constraints: const BoxConstraints(
-                                  maxHeight:
-                                      175, // Adjust the maxHeight to your preference
+                                  maxHeight: 180,
                                 ),
                                 child: SingleChildScrollView(
                                   child: Text(
                                     data.instructions,
                                     textAlign: TextAlign.justify,
+                                    style: const TextStyle(
+                                      color: Color(0xFFf9dbbd),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -335,11 +383,11 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
               ),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                  begin: Alignment.topLeft, // Start from the top-left corner
-                  end: Alignment.bottomRight, // End at the bottom-right corner,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                   colors: [
-                    Color(0xFFD8F2F0),
-                    Color(0xFFB8ECD7),
+                    Color(0xFFff9b54),
+                    Color(0xFF89043d),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(30.0),
@@ -349,7 +397,7 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(
-                    height: 30, // Adjust the height to your preference
+                    height: 30,
                   ),
                   Image.network(
                     data.pictureUrl,
@@ -357,15 +405,35 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
                     height: 200,
                   ),
                   const SizedBox(
-                    height: 15, // Adjust the height to your preference
+                    height: 15,
                   ),
                   SizedBox(
                     width: 200,
                     child: TextFormField(
                       controller: drinkNameController,
                       textAlign: TextAlign.center,
+                      style: const TextStyle(color: Color(0xFFf9dbbd)),
                       decoration: const InputDecoration(
                         labelText: "Drink Name",
+                        labelStyle: TextStyle(color: Color(0xFFf9dbbd)),
+                        hintStyle: TextStyle(color: Color(0xFFf9dbbd)),
+                        fillColor: Color(0xFFf9dbbd),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(30.0),
+                          ),
+                          borderSide: BorderSide(
+                            color: Color(0xFFf9dbbd),
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(30.0),
+                          ),
+                          borderSide: BorderSide(
+                            color: Color(0xFFf9dbbd),
+                          ),
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(30.0),
@@ -374,12 +442,12 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
                         contentPadding: EdgeInsets.symmetric(
                           vertical: 10.0,
                           horizontal: 20.0,
-                        ), // Adjust the padding as needed
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(
-                    height: 30, // Adjust the height to your preference
+                    height: 30,
                   ),
                   Container(
                     width: 1200,
@@ -398,56 +466,39 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
                                   SizedBox(
                                     width: 150,
                                     child: TextFormField(
+                                      style: const TextStyle(
+                                        color: Color(0xFFf9dbbd),
+                                      ),
                                       controller: categoryController,
                                       textAlign: TextAlign.center,
                                       decoration: const InputDecoration(
+                                        labelStyle:
+                                            TextStyle(color: Color(0xFFf9dbbd)),
+                                        hintStyle:
+                                            TextStyle(color: Color(0xFFf9dbbd)),
+                                        fillColor: Color(0xFFf9dbbd),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(30.0),
+                                          ),
+                                          borderSide: BorderSide(
+                                            color: Color(0xFFf9dbbd),
+                                          ),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(30.0),
+                                          ),
+                                          borderSide: BorderSide(
+                                            color: Color(0xFFf9dbbd),
+                                          ),
+                                        ),
                                         labelText: "Category",
                                         border: OutlineInputBorder(),
                                         contentPadding: EdgeInsets.symmetric(
                                           vertical: 10.0,
                                           horizontal: 20.0,
-                                        ), // Adjust the padding as needed
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  SizedBox(
-                                    width: 150,
-                                    child: TextFormField(
-                                      controller: typeController,
-                                      textAlign: TextAlign.center,
-                                      decoration: const InputDecoration(
-                                        labelText: "Type",
-                                        border: OutlineInputBorder(),
-                                        contentPadding: EdgeInsets.symmetric(
-                                          vertical: 10.0,
-                                          horizontal: 20.0,
-                                        ), // Adjust the padding as needed
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: 150,
-                                    child: TextFormField(
-                                      controller: tagsController,
-                                      textAlign: TextAlign.center,
-                                      decoration: const InputDecoration(
-                                        labelText: "Tags",
-                                        border: OutlineInputBorder(),
-                                        contentPadding: EdgeInsets.symmetric(
-                                          vertical: 10.0,
-                                          horizontal: 20.0,
-                                        ), // Adjust the padding as needed
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -457,15 +508,128 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
                                   SizedBox(
                                     width: 150,
                                     child: TextFormField(
+                                      style: const TextStyle(
+                                        color: Color(0xFFf9dbbd),
+                                      ),
+                                      controller: typeController,
+                                      textAlign: TextAlign.center,
+                                      decoration: const InputDecoration(
+                                        labelText: "Type",
+                                        labelStyle:
+                                            TextStyle(color: Color(0xFFf9dbbd)),
+                                        hintStyle:
+                                            TextStyle(color: Color(0xFFf9dbbd)),
+                                        fillColor: Color(0xFFf9dbbd),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(30.0),
+                                          ),
+                                          borderSide: BorderSide(
+                                            color: Color(0xFFf9dbbd),
+                                          ),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(30.0),
+                                          ),
+                                          borderSide: BorderSide(
+                                            color: Color(0xFFf9dbbd),
+                                          ),
+                                        ),
+                                        border: OutlineInputBorder(),
+                                        contentPadding: EdgeInsets.symmetric(
+                                          vertical: 10.0,
+                                          horizontal: 20.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: 150,
+                                    child: TextFormField(
+                                      style: const TextStyle(
+                                        color: Color(0xFFf9dbbd),
+                                      ),
+                                      controller: tagsController,
+                                      textAlign: TextAlign.center,
+                                      decoration: const InputDecoration(
+                                        labelText: "Tags",
+                                        labelStyle:
+                                            TextStyle(color: Color(0xFFf9dbbd)),
+                                        hintStyle:
+                                            TextStyle(color: Color(0xFFf9dbbd)),
+                                        fillColor: Color(0xFFf9dbbd),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(30.0),
+                                          ),
+                                          borderSide: BorderSide(
+                                            color: Color(0xFFf9dbbd),
+                                          ),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(30.0),
+                                          ),
+                                          borderSide: BorderSide(
+                                            color: Color(0xFFf9dbbd),
+                                          ),
+                                        ),
+                                        border: OutlineInputBorder(),
+                                        contentPadding: EdgeInsets.symmetric(
+                                          vertical: 10.0,
+                                          horizontal: 20.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  SizedBox(
+                                    width: 150,
+                                    child: TextFormField(
+                                      style: const TextStyle(
+                                        color: Color(0xFFf9dbbd),
+                                      ),
                                       controller: glassController,
                                       textAlign: TextAlign.center,
                                       decoration: const InputDecoration(
                                         labelText: "Glass",
+                                        labelStyle:
+                                            TextStyle(color: Color(0xFFf9dbbd)),
+                                        hintStyle:
+                                            TextStyle(color: Color(0xFFf9dbbd)),
+                                        fillColor: Color(0xFFf9dbbd),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(30.0),
+                                          ),
+                                          borderSide: BorderSide(
+                                            color: Color(0xFFf9dbbd),
+                                          ),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(30.0),
+                                          ),
+                                          borderSide: BorderSide(
+                                            color: Color(0xFFf9dbbd),
+                                          ),
+                                        ),
                                         border: OutlineInputBorder(),
                                         contentPadding: EdgeInsets.symmetric(
                                           vertical: 10.0,
                                           horizontal: 20.0,
-                                        ), // Adjust the padding as needed
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -480,15 +644,39 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
                                   SizedBox(
                                     width: 310,
                                     child: TextFormField(
+                                      style: const TextStyle(
+                                        color: Color(0xFFf9dbbd),
+                                      ),
                                       controller: ingredientsController,
                                       textAlign: TextAlign.center,
                                       decoration: const InputDecoration(
                                         labelText: "Ingredients",
+                                        labelStyle:
+                                            TextStyle(color: Color(0xFFf9dbbd)),
+                                        hintStyle:
+                                            TextStyle(color: Color(0xFFf9dbbd)),
+                                        fillColor: Color(0xFFf9dbbd),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(30.0),
+                                          ),
+                                          borderSide: BorderSide(
+                                            color: Color(0xFFf9dbbd),
+                                          ),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(30.0),
+                                          ),
+                                          borderSide: BorderSide(
+                                            color: Color(0xFFf9dbbd),
+                                          ),
+                                        ),
                                         border: OutlineInputBorder(),
                                         contentPadding: EdgeInsets.symmetric(
                                           vertical: 10.0,
                                           horizontal: 20.0,
-                                        ), // Adjust the padding as needed
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -503,15 +691,39 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
                                   SizedBox(
                                     width: 310,
                                     child: TextFormField(
+                                      style: const TextStyle(
+                                        color: Color(0xFFf9dbbd),
+                                      ),
                                       controller: instructionsController,
                                       decoration: const InputDecoration(
                                         isDense: true,
                                         labelText: "Instructions",
+                                        labelStyle:
+                                            TextStyle(color: Color(0xFFf9dbbd)),
+                                        hintStyle:
+                                            TextStyle(color: Color(0xFFf9dbbd)),
+                                        fillColor: Color(0xFFf9dbbd),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(30.0),
+                                          ),
+                                          borderSide: BorderSide(
+                                            color: Color(0xFFf9dbbd),
+                                          ),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(30.0),
+                                          ),
+                                          borderSide: BorderSide(
+                                            color: Color(0xFFf9dbbd),
+                                          ),
+                                        ),
                                         border: OutlineInputBorder(),
                                         contentPadding: EdgeInsets.symmetric(
                                           vertical: 40.0,
                                           horizontal: 20.0,
-                                        ), // Adjust the padding as needed
+                                        ),
                                       ),
                                       textAlignVertical: TextAlignVertical.top,
                                     ),
@@ -530,12 +742,17 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
                                     },
                                     child: Container(
                                       height: 30,
-                                      width: 120, // Set the desired width
+                                      width: 120,
                                       decoration: BoxDecoration(
-                                        color: Colors
-                                            .blueGrey, // Set the background color here
-                                        borderRadius: BorderRadius.circular(
-                                            8), // Optional: add rounded corners
+                                        gradient: const LinearGradient(
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                          colors: [
+                                            Color(0xFFce4257),
+                                            Color(0xFFa53860),
+                                          ],
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
                                       ),
                                       child: const Row(
                                         mainAxisAlignment:
@@ -545,8 +762,7 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
                                             'Cancel',
                                             style: TextStyle(
                                               fontSize: 12,
-                                              color: Colors
-                                                  .white, // Set the text color
+                                              color: Color(0xFFf9dbbd),
                                             ),
                                           ),
                                         ],
@@ -570,12 +786,17 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
                                     },
                                     child: Container(
                                       height: 30,
-                                      width: 120, // Set the desired width
+                                      width: 120,
                                       decoration: BoxDecoration(
-                                        color: Colors
-                                            .blueGrey, // Set the background color here
-                                        borderRadius: BorderRadius.circular(
-                                            8), // Optional: add rounded corners
+                                        gradient: const LinearGradient(
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                          colors: [
+                                            Color(0xFFce4257),
+                                            Color(0xFFa53860),
+                                          ],
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
                                       ),
                                       child: const Row(
                                         mainAxisAlignment:
@@ -585,8 +806,7 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
                                             'Save',
                                             style: TextStyle(
                                               fontSize: 12,
-                                              color: Colors
-                                                  .white, // Set the text color
+                                              color: Color(0xFFf9dbbd),
                                             ),
                                           ),
                                         ],
@@ -615,8 +835,6 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
       User? user = FirebaseAuth.instance.currentUser;
       String userId = user!.uid;
 
-      savedDrinkModel Drink;
-
       DocumentReference<Map<String, dynamic>> documentReference =
           FirebaseFirestore.instance
               .collection('Users')
@@ -632,58 +850,25 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
             savedDrinkModel.fromJson(documentSnapshot.data()!);
         return drink;
       } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Some error occured!'),
+            duration: Duration(seconds: 3),
+          ),
+        );
+
         print('Document does not exist');
         return null;
       }
-
-      return documentSnapshot;
     } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Some error occured!'),
+          duration: Duration(seconds: 3),
+        ),
+      );
       print('Error fetching document: $error');
       return null;
-    }
-  }
-
-  Future<void> addSavedDrink(data) async {
-    try {
-      User? user = FirebaseAuth.instance.currentUser;
-
-      if (user != null) {
-        String userId = user.uid;
-
-        // Reference to the user's saved drinks collection
-        CollectionReference savedDrinksCollection = FirebaseFirestore.instance
-            .collection('Users')
-            .doc(userId)
-            .collection('savedDrinks');
-
-        // Add the drink data to the collection
-        try {
-          await savedDrinksCollection.doc(data.drinkID).set({
-            'id': data.drinkID,
-            'name': data.drinkName,
-            'pictureUrl': data.drinkpicture,
-            'category': data.category,
-            'type': data.alcoholic,
-            'tags': data.tags ?? "None",
-            'glass': data.glass,
-            'ingredients': data.ingredients,
-            'instructions': data.instructions,
-          });
-
-          setState(() {
-            isdrinkSaved = true;
-          });
-        } catch (e) {
-          print('Error saving drink');
-          return;
-        }
-
-        print('Drink saved successfully!');
-      } else {
-        print('User not logged in.');
-      }
-    } catch (error) {
-      print('Error saving drink: $error');
     }
   }
 
@@ -703,18 +888,45 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
         // Add the drink data to the collection
         try {
           await savedDrinksCollection.doc(data.drinkID).delete();
-
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Drink successfully removed! Please reload page'),
+              duration: Duration(seconds: 3), // You can customize the duration
+            ),
+          );
           Navigator.pop(context);
         } catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Some error occured!'),
+              duration: Duration(seconds: 3),
+            ),
+          );
           print('Error removing drink');
           return;
         }
-
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Drink removed successfully! Please reload page'),
+            duration: Duration(seconds: 3),
+          ),
+        );
         print('Drink removed successfully!');
       } else {
-        print('User not logged in.');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Some error occured!'),
+            duration: Duration(seconds: 3),
+          ),
+        );
       }
     } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Some error occured!'),
+          duration: Duration(seconds: 3),
+        ),
+      );
       print('Error removing drink: $error');
     }
   }
@@ -744,10 +956,21 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
         // Return the DocumentSnapshot for further processing
         return documentSnapshot;
       } else {
-        print('User not logged in.');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Some error occured!'),
+            duration: Duration(seconds: 3),
+          ),
+        );
         return null;
       }
     } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Some error occured!'),
+          duration: Duration(seconds: 3),
+        ),
+      );
       print('Error checking if drink is saved: $error');
       return null;
     }
@@ -789,11 +1012,24 @@ class _SavedDrinkDetailsState extends State<SavedDrinkDetails> {
           switchToViewMode();
         });
 
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Drink data updated successfully!'),
+            duration: Duration(seconds: 3), // You can customize the duration
+          ),
+        );
+
         print('Drink data updated successfully!');
       } else {
-        print('User not logged in.');
+        print('Error updating drink data.');
       }
     } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Some error occured!'),
+          duration: Duration(seconds: 3),
+        ),
+      );
       print('Error updating drink data: $error');
     }
   }

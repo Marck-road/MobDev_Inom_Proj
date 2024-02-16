@@ -6,6 +6,7 @@ class FilterSearchModel extends StatefulWidget {
   final bool isSelected;
 
   const FilterSearchModel({
+    super.key,
     required this.text,
     required this.isSelected,
     required this.onChanged,
@@ -28,8 +29,16 @@ class _FilterSearchModelState extends State<FilterSearchModel> {
               widget.onChanged(value as String);
               Navigator.of(context).pop(); // Close the dialog
             },
+            activeColor: const Color(0xFFff9b54),
+            focusColor: const Color(0xFFf9dbbd),
           ),
-          Text(widget.text),
+          Text(
+            widget.text,
+            style: const TextStyle(
+              color: Color(0xFFf9dbbd),
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ],
       ),
     );

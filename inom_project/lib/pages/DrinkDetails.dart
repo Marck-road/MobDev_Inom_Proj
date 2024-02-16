@@ -7,36 +7,44 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:inom_project/models/DrinkDetailsModel.dart';
 
-class drinkDetails extends StatefulWidget {
+class DrinkDetails extends StatefulWidget {
   final String id;
   final String drinkName;
 
-  const drinkDetails({
+  const DrinkDetails({
     super.key,
     required this.id,
     required this.drinkName,
   });
 
   @override
-  State<drinkDetails> createState() => _drinkDetailsState();
+  State<DrinkDetails> createState() => _DrinkDetailsState();
 }
 
-class _drinkDetailsState extends State<drinkDetails> {
+class _DrinkDetailsState extends State<DrinkDetails> {
   bool isdrinkSaved = false;
   @override
   void initState() {
     super.initState();
-    // Call isDrinkSaved when the widget is first created
     isDrinkSaved(widget.id);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFBFEFE),
+      backgroundColor: const Color(0xFF450920),
       appBar: AppBar(
-        title: Text(widget.drinkName),
-        backgroundColor: const Color(0xFF3E8C84),
+        iconTheme: const IconThemeData(
+          color: Color(0xFFff9b54),
+        ),
+        title: Text(
+          widget.drinkName,
+          style: const TextStyle(
+            color: Color(0xFFff9b54),
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        backgroundColor: const Color(0xFF4f000b),
       ),
       body: FutureBuilder(
           future: callApi(),
@@ -62,11 +70,11 @@ class _drinkDetailsState extends State<drinkDetails> {
         padding: const EdgeInsets.only(left: 20, right: 20),
         decoration: BoxDecoration(
           gradient: const LinearGradient(
-            begin: Alignment.topLeft, // Start from the top-left corner
-            end: Alignment.bottomRight, // End at the bottom-right corner,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
             colors: [
-              Color(0xFFD8F2F0),
-              Color(0xFFB8ECD7),
+              Color(0xFFff9b54),
+              Color(0xFF89043d),
             ],
           ),
           borderRadius: BorderRadius.circular(30.0),
@@ -76,7 +84,7 @@ class _drinkDetailsState extends State<drinkDetails> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(
-              height: 50, // Adjust the height to your preference
+              height: 50,
             ),
             Image.network(
               data[0].drinkpicture,
@@ -89,19 +97,25 @@ class _drinkDetailsState extends State<drinkDetails> {
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w700,
-                color: Color(0xFF0F2D40),
+                color: Color(0xFFf9dbbd),
               ),
             ),
             const SizedBox(
-              height: 10, // Adjust the height to your preference
+              height: 10,
             ),
             Container(
               height: 30,
-              width: 120, // Set the desired width
+              width: 120,
               decoration: BoxDecoration(
-                color: Colors.blueGrey, // Set the background color here
-                borderRadius:
-                    BorderRadius.circular(8), // Optional: add rounded corners
+                gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color(0xFFce4257),
+                    Color(0xFFa53860),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(8),
               ),
               child: GestureDetector(
                 onTap: () {
@@ -120,7 +134,7 @@ class _drinkDetailsState extends State<drinkDetails> {
                       isdrinkSaved ? 'Drink Saved' : 'Save Drink',
                       style: const TextStyle(
                         fontSize: 12,
-                        color: Colors.white, // Set the text color
+                        color: Color(0xFFf9dbbd),
                       ),
                     ),
                   ],
@@ -128,7 +142,7 @@ class _drinkDetailsState extends State<drinkDetails> {
               ),
             ),
             const SizedBox(
-              height: 10, // Adjust the height to your preference
+              height: 10,
             ),
             Container(
               width: 1200,
@@ -145,47 +159,21 @@ class _drinkDetailsState extends State<drinkDetails> {
                           children: [
                             const Text(
                               'Category:',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFFf9dbbd),
+                              ),
                             ),
                             const SizedBox(
                               width: 56,
                             ),
                             Expanded(
-                                child: Text(
-                              data[0].category,
-                              textAlign: TextAlign.left,
-                            )),
-                          ],
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Type of Drink:',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(
-                              width: 30,
-                            ),
-                            Expanded(
-                                child: Text(
-                              data[0].alcoholic,
-                              textAlign: TextAlign.left,
-                            )),
-                          ],
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text('Tags:',
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                            const SizedBox(
-                              width: 89,
-                            ),
-                            Expanded(
                               child: Text(
-                                data[0].tags ?? "None",
+                                data[0].category,
                                 textAlign: TextAlign.left,
+                                style: const TextStyle(
+                                  color: Color(0xFFf9dbbd),
+                                ),
                               ),
                             ),
                           ],
@@ -193,31 +181,95 @@ class _drinkDetailsState extends State<drinkDetails> {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('Glass:',
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                            const SizedBox(
-                              width: 86,
+                            const Text(
+                              'Type of Drink:',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFFf9dbbd),
+                              ),
                             ),
-                            Text(
-                              data[0].glass,
-                              textAlign: TextAlign.left,
+                            const SizedBox(
+                              width: 29,
+                            ),
+                            Expanded(
+                              child: Text(
+                                data[0].alcoholic,
+                                textAlign: TextAlign.left,
+                                style: const TextStyle(
+                                  color: Color(0xFFf9dbbd),
+                                ),
+                              ),
                             ),
                           ],
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('Ingredients:',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                )),
+                            const Text(
+                              'Tags:',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFFf9dbbd),
+                              ),
+                            ),
                             const SizedBox(
-                              width: 43,
+                              width: 90,
+                            ),
+                            Expanded(
+                              child: Text(
+                                data[0].tags ?? "None",
+                                textAlign: TextAlign.left,
+                                style: const TextStyle(
+                                  color: Color(0xFFf9dbbd),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Glass:',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFFf9dbbd),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 85,
+                            ),
+                            Expanded(
+                              child: Text(
+                                data[0].glass,
+                                textAlign: TextAlign.left,
+                                style: const TextStyle(
+                                  color: Color(0xFFf9dbbd),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Ingredients:',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFFf9dbbd),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 41,
                             ),
                             Expanded(
                               child: Text(
                                 buildIngredientsText(data[0]),
                                 textAlign: TextAlign.left,
+                                style: const TextStyle(
+                                  color: Color(0xFFf9dbbd),
+                                ),
                               ),
                             ),
                           ],
@@ -227,7 +279,10 @@ class _drinkDetailsState extends State<drinkDetails> {
                           children: [
                             Text(
                               'Instructions:',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFFf9dbbd),
+                              ),
                             ),
                             SizedBox(
                               width: 40,
@@ -240,13 +295,15 @@ class _drinkDetailsState extends State<drinkDetails> {
                             Expanded(
                               child: Container(
                                 constraints: const BoxConstraints(
-                                  maxHeight:
-                                      175, // Adjust the maxHeight to your preference
+                                  maxHeight: 180,
                                 ),
                                 child: SingleChildScrollView(
                                   child: Text(
                                     data[0].instructions,
                                     textAlign: TextAlign.justify,
+                                    style: const TextStyle(
+                                      color: Color(0xFFf9dbbd),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -319,13 +376,11 @@ class _drinkDetailsState extends State<drinkDetails> {
       if (user != null) {
         String userId = user.uid;
 
-        // Reference to the user's saved drinks collection
         CollectionReference savedDrinksCollection = FirebaseFirestore.instance
             .collection('Users')
             .doc(userId)
             .collection('savedDrinks');
 
-        // Add the drink data to the collection
         try {
           await savedDrinksCollection.doc(data[0].drinkID).set({
             'id': data[0].drinkID,
@@ -346,12 +401,28 @@ class _drinkDetailsState extends State<drinkDetails> {
           print('Error saving drink');
           return;
         }
-
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Drink saved successfully!'),
+            duration: Duration(seconds: 3),
+          ),
+        );
         print('Drink saved successfully!');
       } else {
-        print('User not logged in.');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Error saving drink!'),
+            duration: Duration(seconds: 3),
+          ),
+        );
       }
     } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Error saving drink!'),
+          duration: Duration(seconds: 3),
+        ),
+      );
       print('Error saving drink: $error');
     }
   }
@@ -373,20 +444,42 @@ class _drinkDetailsState extends State<drinkDetails> {
         try {
           await savedDrinksCollection.doc(data[0].drinkID).delete();
 
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Drink removed successfully!'),
+              duration: Duration(seconds: 3), // You can customize the duration
+            ),
+          );
+
           setState(() {
             isdrinkSaved = false;
           });
         } catch (e) {
-          print('Error removing drink');
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Error removing drink!'),
+              duration: Duration(seconds: 3),
+            ),
+          );
           return;
         }
 
         print('Drink removed successfully!');
       } else {
-        print('User not logged in.');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Error removing drink!'),
+            duration: Duration(seconds: 3),
+          ),
+        );
       }
     } catch (error) {
-      print('Error removing drink: $error');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Error removing drink!'),
+          duration: Duration(seconds: 3),
+        ),
+      );
     }
   }
 
@@ -397,13 +490,11 @@ class _drinkDetailsState extends State<drinkDetails> {
       if (user != null) {
         String userId = user.uid;
 
-        // Reference to the user's saved drinks collection
         CollectionReference savedDrinksCollection = FirebaseFirestore.instance
             .collection('Users')
             .doc(userId)
             .collection('savedDrinks');
 
-        // Query to check if the specific drinkId exists in the user's saved drinks
         DocumentSnapshot<Object?> documentSnapshot =
             await savedDrinksCollection.doc(id).get();
 
@@ -412,14 +503,23 @@ class _drinkDetailsState extends State<drinkDetails> {
           isdrinkSaved = doesitExist;
         });
 
-        // Return the DocumentSnapshot for further processing
         return documentSnapshot;
       } else {
-        print('User not logged in.');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Some error occured!'),
+            duration: Duration(seconds: 3),
+          ),
+        );
         return null;
       }
     } catch (error) {
-      print('Error checking if drink is saved: $error');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Some error occured!'),
+          duration: Duration(seconds: 3),
+        ),
+      );
       return null;
     }
   }

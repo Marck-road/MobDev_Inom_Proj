@@ -5,6 +5,7 @@ class SecondaryButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   const SecondaryButton({
+    super.key,
     required this.text,
     required this.onPressed,
   });

@@ -25,9 +25,9 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: _pages[pageIndex],
       bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: const Color(0xFF3E8C84),
-          selectedItemColor: const Color(0xFF93dbd6),
-          unselectedItemColor: const Color(0xFFD8F2F0),
+          backgroundColor: const Color(0xFF4f000b),
+          selectedItemColor: const Color(0xFFff7f51),
+          unselectedItemColor: const Color(0xFFff9b54),
           currentIndex: pageIndex,
           selectedFontSize: 13,
           items: [
@@ -39,7 +39,7 @@ class _HomeState extends State<Home> {
               icon: SvgPicture.asset(
                 'assets/icons/glass.svg',
                 // ignore: deprecated_member_use
-                color: const Color(0xFF93dbd6),
+                color: const Color(0xFFff9b54),
                 height: 20,
               ),
               label: "Saved Drinks",
@@ -50,7 +50,7 @@ class _HomeState extends State<Home> {
               activeIcon: SvgPicture.asset(
                 'assets/icons/amogus.svg',
                 // ignore: deprecated_member_use
-                color: const Color(0xFF93dbd6),
+                color: const Color(0xFFff9b54),
                 height: 24,
               ),
             ),

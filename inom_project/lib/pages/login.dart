@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:inom_project/models/CustomTextFormField.dart';
+import 'package:inom_project/models/LoginButton.dart';
 import 'package:inom_project/models/PasswordField.dart';
-import 'package:inom_project/models/PrimaryButton.dart';
 import 'package:inom_project/models/StrorageItem.dart';
+import 'package:inom_project/pages/FirstChangePass.dart';
 import 'package:inom_project/pages/SignUp.dart';
 import 'package:inom_project/pages/home.dart';
 import 'package:inom_project/services/StorageService.dart';
@@ -28,11 +28,11 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xffD8F2F0),
+        backgroundColor: const Color(0xFF450920),
         body: ListView(
           children: [
             const SizedBox(
-              height: 40.0,
+              height: 10.0,
             ),
             Logo(),
             Login_fields(),
@@ -45,21 +45,16 @@ class _LoginScreenState extends State<LoginScreen> {
   Column Logo() {
     return Column(
       children: [
-        SvgPicture.asset(
-          'assets/icons/globe.svg',
-          height: 200,
+        const SizedBox(
+          height: 20.0,
+        ),
+        Image.asset(
+          'assets/pictures/kanpaiLogo.png',
+          height: 250,
         ),
         const SizedBox(
-          height: 10.0,
+          height: 5.0,
         ),
-        const Text(
-          'KANPAI',
-          style: TextStyle(
-            fontFamily: 'Pulchella',
-            fontSize: 38,
-            color: Color(0xFF0F2D40),
-          ),
-        )
       ],
     );
   }
@@ -94,33 +89,58 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 20.0,
             ),
-            PrimaryButton(
-              text: "Login",
-              iconData: Icons.login,
-              onPressed: () {
-                emailPasswordLogin(
-                  context,
-                  emailController.value.text,
-                  passwordController.value.text,
-                );
-              },
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 170,
+                  height: 52,
+                  child: LoginButton(
+                    text: "Login",
+                    iconData: Icons.login,
+                    onPressed: () {
+                      emailPasswordLogin(
+                        context,
+                        emailController.value.text,
+                        passwordController.value.text,
+                      );
+                    },
+                    textSize: 17,
+                  ),
+                ),
+                const SizedBox(
+                  width: 20.0,
+                ),
+                SizedBox(
+                  width: 170,
+                  height: 52,
+                  child: LoginButton(
+                    text: "Sign In with Google",
+                    iconData: null,
+                    onPressed: () {
+                      googleLogin();
+                    },
+                    textSize: 12,
+                    uniqueIcon: 'assets/icons/google.svg',
+                  ),
+                ),
+              ],
             ),
             const SizedBox(
-              height: 20.0,
-            ),
-            PrimaryButton(
-              text: "Sign In with Google",
-              iconData: Icons.login,
-              onPressed: () {
-                googleLogin();
-              },
-            ),
-            const SizedBox(
-              height: 20.0,
+              height: 30.0,
             ),
             Row(
               children: [
-                Text("New to the app?"),
+                const SizedBox(
+                  width: 6,
+                ),
+                const Text(
+                  "New to the app? ",
+                  style: TextStyle(
+                    color: Color(0xFFce4257),
+                  ),
+                ),
                 GestureDetector(
                   onTap: () {
                     Navigator.pushReplacementNamed(
@@ -128,10 +148,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       SignUpPage.routeName,
                     );
                   },
-                  child: Text(
+                  child: const Text(
                     "Sign up Here!",
                     style: TextStyle(
-                      color: Colors.blue,
+                      color: Color(0xFFff7f51),
                     ),
                   ),
                 ),
@@ -160,11 +180,23 @@ class _LoginScreenState extends State<LoginScreen> {
       await Navigator.pushNamedAndRemoveUntil(
         context,
         Home.routeName,
-        (route) => false, // This will remove all previous routes from the stack
+        (route) => false,
       );
     } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Error logging in. Please try again.'),
+          duration: Duration(seconds: 3),
+        ),
+      );
       print(e.message);
     } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Error logging in. Please try again.'),
+          duration: Duration(seconds: 3),
+        ),
+      );
       print(e);
     }
   }
@@ -176,6 +208,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   googleLogin() async {
+    bool firstTime = false;
+
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -191,7 +225,10 @@ class _LoginScreenState extends State<LoginScreen> {
           email: googleUser.email,
           password: "123456",
         );
+        firstTime = true;
       } catch (e) {
+        firstTime = false;
+
         print(e);
       }
 
@@ -208,11 +245,22 @@ class _LoginScreenState extends State<LoginScreen> {
       try {
         await currentUser?.linkWithCredential(credential);
       } catch (e) {
+        firstTime = false;
         print(e);
       }
 
       UserCredential? userCredential =
           await FirebaseAuth.instance.signInWithCredential(credential);
+
+      if (firstTime == true) {
+        // ignore: use_build_context_synchronously
+        await Navigator.pushNamedAndRemoveUntil(
+          context,
+          FirstChangePass.routeName,
+          (route) =>
+              false, // This will remove all previous routes from the stack
+        );
+      }
 
       // ignore: use_build_context_synchronously
       await Navigator.pushNamedAndRemoveUntil(
@@ -221,6 +269,12 @@ class _LoginScreenState extends State<LoginScreen> {
         (route) => false, // This will remove all previous routes from the stack
       );
     } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Error logging in. Please try again.'),
+          duration: Duration(seconds: 3), // You can customize the duration
+        ),
+      );
       print(e);
     }
   }
