@@ -327,7 +327,9 @@ class _SearchState extends State<Dashboard> {
             ),
           ),
         ),
-        const SizedBox(height: 15),
+        const SizedBox(
+          height: 15,
+        ),
         SizedBox(
           height: 300,
           child: ListView.separated(
@@ -431,7 +433,9 @@ class _SearchState extends State<Dashboard> {
             ),
           ),
         ),
-        const SizedBox(height: 15),
+        const SizedBox(
+          height: 15,
+        ),
         SizedBox(
           height: 300,
           child: ListView.separated(

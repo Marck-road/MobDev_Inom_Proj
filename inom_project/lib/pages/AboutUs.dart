@@ -107,7 +107,7 @@ class AboutUs extends StatelessWidget {
                   height: 10.0,
                 ),
                 const Text(
-                  "Mark David M. Calzada is a 3rd-year BS Information Technology Student enrolled in University of San Carlos. Born on November 21, 2002, he is capable of multiple things such as getting out of bed, web development, system designing, and exploring the unknwon. Mark will complete any task given to him to the best of his capabilities, and is not afraid to try and handle something new. His main motto is to live life without regrets and enjoy everything to the fullest, as you only live once. And yes, he is still single since and ready to mingle.",
+                  "Mark Calzada is a 3rd-year BS Information Technology Student enrolled in University of San Carlos. Born on November 21, 2002, he is capable of multiple things such as getting out of bed, web development, system designing, and exploring the unknown. Mark will complete any task given to him to the best of his capabilities, and is not afraid to try and handle something new. His main motto is to live life without regrets and enjoy everything to the fullest, as you only live once. And yes, he is still single.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Color(0xFFf9dbbd),

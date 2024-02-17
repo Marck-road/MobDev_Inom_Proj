@@ -70,7 +70,7 @@ class _SavedDrinksState extends State<SavedDrinks> {
               Row(
                 children: [
                   const Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.only(left: 19.0),
                     child: Text(
                       'Saved Drinks:',
                       style: TextStyle(
