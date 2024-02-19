@@ -226,6 +226,9 @@ class _LoginScreenState extends State<LoginScreen> {
           password: "123456",
         );
         firstTime = true;
+
+        var item = StorageItem("uid", userPassCredential.user?.uid ?? "");
+        await storageService.saveData(item);
       } catch (e) {
         firstTime = false;
 

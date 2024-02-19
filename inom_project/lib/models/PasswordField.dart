@@ -30,8 +30,8 @@ class PasswordField extends StatelessWidget {
         obscureText: obscureText,
         decoration: InputDecoration(
             hintText: "Enter your Password",
-            labelStyle: const TextStyle(color: Color(0xFF4f000b)),
-            hintStyle: const TextStyle(color: Color.fromRGBO(79, 0, 11, 1)),
+            labelStyle: const TextStyle(color: Color(0xFFce4257)),
+            hintStyle: const TextStyle(color: Color(0xFF4f000b)),
             prefixIconColor: const Color(0xFF4f000b),
             prefixIcon: Container(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),

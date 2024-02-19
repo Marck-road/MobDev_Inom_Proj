@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:inom_project/models/FilledTextForm.dart';
 import 'package:inom_project/models/PasswordField.dart';
 import 'package:inom_project/models/PrimaryButton.dart';
 import 'package:inom_project/pages/home.dart';
@@ -18,6 +17,7 @@ class FirstChangePass extends StatefulWidget {
 class _FirstTimeChangePassword extends State<FirstChangePass> {
   TextEditingController emailController = TextEditingController();
   TextEditingController PasswordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
 
   bool obscureText = true;
   @override
@@ -74,33 +74,34 @@ class _FirstTimeChangePassword extends State<FirstChangePass> {
                   height: 20.0,
                 ),
                 (currentUser?.providerData[0].displayName != null)
-                    ? Text(
-                        '${currentUser?.providerData[0].displayName}',
-                        style: const TextStyle(
-                            fontSize: 18,
-                            color: Color(0xFFf9dbbd),
-                            fontWeight: FontWeight.w300),
-                        textAlign: TextAlign.center,
+                    ? Column(
+                        children: [
+                          Text(
+                            'Name: ${currentUser?.providerData[0].displayName}',
+                            style: const TextStyle(
+                                fontSize: 15,
+                                color: Color(0xFFf9dbbd),
+                                fontWeight: FontWeight.w300),
+                            textAlign: TextAlign.center,
+                          ),
+                          Text(
+                            'Email: ${currentUser?.email}',
+                            style: const TextStyle(
+                              fontSize: 15,
+                              color: Color(0xFFf9dbbd),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       )
                     : Text(
-                        'Email: (${currentUser?.email})!',
+                        'Email: ${currentUser?.email}',
                         style: const TextStyle(
                           fontSize: 15,
                           color: Color(0xFFf9dbbd),
                         ),
                         textAlign: TextAlign.center,
                       ),
-                const SizedBox(
-                  height: 20.0,
-                ),
-                SizedBox(
-                  width: 380,
-                  child: FilledTextForm(
-                    value: currentUser?.email,
-                    labelText: "Email Address",
-                    iconData: Icons.email,
-                  ),
-                ),
                 const SizedBox(
                   height: 20.0,
                 ),
@@ -119,6 +120,20 @@ class _FirstTimeChangePassword extends State<FirstChangePass> {
                   height: 20.0,
                 ),
                 SizedBox(
+                  width: 380,
+                  child: PasswordField(
+                    labelText: "Confirm Password",
+                    hintText: "Reenter your password",
+                    iconData: Icons.lock,
+                    obscureText: obscureText,
+                    onTap: setPasswordVisibility,
+                    controller: confirmPasswordController,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                SizedBox(
                   width: 240,
                   child: PrimaryButton(
                     text: "Set up Account",
@@ -128,6 +143,7 @@ class _FirstTimeChangePassword extends State<FirstChangePass> {
                         currentUser,
                         "123456",
                         PasswordController.value.text,
+                        confirmPasswordController.value.text,
                       );
                     },
                   ),
@@ -149,9 +165,19 @@ class _FirstTimeChangePassword extends State<FirstChangePass> {
     });
   }
 
-  Future<void> _changePassword(
-      User? currentUser, String currentPassword, String newPassword) async {
+  Future<void> _changePassword(User? currentUser, String currentPassword,
+      String newPassword, String confPassword) async {
     try {
+      if (newPassword != confPassword) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Password does not match.'),
+            duration: Duration(seconds: 3),
+          ),
+        );
+        return;
+      }
+
       //Pass in the password to updatePassword.
       final user = await FirebaseAuth.instance.currentUser;
 

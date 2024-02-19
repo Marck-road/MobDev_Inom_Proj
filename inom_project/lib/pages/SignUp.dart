@@ -2,8 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:inom_project/models/CustomTextFormField.dart';
 import 'package:inom_project/models/PasswordField.dart';
+import 'package:inom_project/models/StrorageItem.dart';
 import 'package:inom_project/pages/Home.dart';
 import 'package:inom_project/pages/login.dart';
+import 'package:inom_project/services/StorageService.dart';
 
 class SignUpPage extends StatefulWidget {
   static const String routeName = "register";
@@ -14,6 +16,8 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  StorageService storageService = StorageService();
+
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool obscureText = true;
@@ -170,6 +174,9 @@ class _SignUpPageState extends State<SignUpPage> {
         email: email,
         password: password,
       );
+
+      var item = StorageItem("uid", credential.user?.uid ?? "");
+      await storageService.saveData(item);
 
       // ignore: use_build_context_synchronously
 

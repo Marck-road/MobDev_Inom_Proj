@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:inom_project/models/FilledTextForm.dart';
 import 'package:inom_project/models/PasswordField.dart';
 import 'package:inom_project/models/PrimaryButton.dart';
 
@@ -18,6 +17,7 @@ class _ChangePassword extends State<ChangePassword> {
   TextEditingController emailController = TextEditingController();
   TextEditingController currentPasswordController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
+  TextEditingController confPasswordController = TextEditingController();
 
   bool obscureText = true;
   @override
@@ -73,17 +73,30 @@ class _ChangePassword extends State<ChangePassword> {
                 const SizedBox(
                   height: 20.0,
                 ),
-                (currentUser?.providerData[0].displayName != null)
-                    ? Text(
-                        '${currentUser?.providerData[0].displayName}',
-                        style: const TextStyle(
-                            fontSize: 18,
-                            color: Color(0xFFf9dbbd),
-                            fontWeight: FontWeight.w300),
-                        textAlign: TextAlign.center,
+                (currentUser?.providerData[0].displayName != null &&
+                        currentUser?.providerData[0].displayName != "")
+                    ? Column(
+                        children: [
+                          Text(
+                            '${currentUser?.providerData[0].displayName}',
+                            style: const TextStyle(
+                                fontSize: 18,
+                                color: Color(0xFFf9dbbd),
+                                fontWeight: FontWeight.w300),
+                            textAlign: TextAlign.center,
+                          ),
+                          Text(
+                            '${currentUser?.email}',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: Color(0xFFf9dbbd),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       )
                     : Text(
-                        'Email: (${currentUser?.email})!',
+                        'Email: ${currentUser?.email}',
                         style: const TextStyle(
                           fontSize: 15,
                           color: Color(0xFFf9dbbd),
@@ -92,17 +105,6 @@ class _ChangePassword extends State<ChangePassword> {
                       ),
                 const SizedBox(
                   height: 10.0,
-                ),
-                const SizedBox(
-                  height: 20.0,
-                ),
-                SizedBox(
-                  width: 380,
-                  child: FilledTextForm(
-                    value: currentUser?.email,
-                    labelText: "Email Address",
-                    iconData: Icons.email,
-                  ),
                 ),
                 const SizedBox(
                   height: 20.0,
@@ -136,6 +138,20 @@ class _ChangePassword extends State<ChangePassword> {
                   height: 20.0,
                 ),
                 SizedBox(
+                  width: 380,
+                  child: PasswordField(
+                    labelText: "Confirm Password",
+                    hintText: "Enter your password",
+                    iconData: Icons.lock,
+                    obscureText: obscureText,
+                    onTap: setPasswordVisibility,
+                    controller: confPasswordController,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                SizedBox(
                   width: 240,
                   child: PrimaryButton(
                     text: "Change Password",
@@ -145,6 +161,7 @@ class _ChangePassword extends State<ChangePassword> {
                         currentUser,
                         currentPasswordController.value.text,
                         newPasswordController.value.text,
+                        confPasswordController.value.text,
                       );
                     },
                   ),
@@ -166,9 +183,19 @@ class _ChangePassword extends State<ChangePassword> {
     });
   }
 
-  Future<void> _changePassword(
-      User? currentUser, String currentPassword, String newPassword) async {
+  Future<void> _changePassword(User? currentUser, String currentPassword,
+      String newPassword, String confPassword) async {
     try {
+      if (newPassword != confPassword) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Password does not match.'),
+            duration: Duration(seconds: 3),
+          ),
+        );
+        return;
+      }
+
       //Pass in the password to updatePassword.
       final user = await FirebaseAuth.instance.currentUser;
 

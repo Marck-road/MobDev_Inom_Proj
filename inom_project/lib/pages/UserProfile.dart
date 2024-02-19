@@ -65,7 +65,8 @@ class _UserProfile extends State<UserProfile> {
           const SizedBox(
             height: 20.0,
           ),
-          (currentUser?.providerData[0].displayName != null)
+          (currentUser?.providerData[0].displayName != null &&
+                  currentUser?.providerData[0].displayName != "")
               ? Text(
                   'Welcome back, ${currentUser?.providerData[0].displayName}! \nEmail: ${currentUser?.email}',
                   style: const TextStyle(
@@ -75,7 +76,7 @@ class _UserProfile extends State<UserProfile> {
                   textAlign: TextAlign.center,
                 )
               : Text(
-                  'Email: ${currentUser?.email}!',
+                  'Email: ${currentUser?.email}',
                   style: const TextStyle(
                     fontSize: 15,
                     color: Color(0xFFf9dbbd),

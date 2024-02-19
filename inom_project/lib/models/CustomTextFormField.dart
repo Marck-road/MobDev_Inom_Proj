@@ -25,7 +25,7 @@ class CustomTextFormField extends StatelessWidget {
         controller: controller,
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
-          labelStyle: const TextStyle(color: Color(0xFF4f000b)),
+          labelStyle: const TextStyle(color: Color(0xFFce4257)),
           hintStyle: const TextStyle(color: Color(0xFF4f000b)),
           prefixIconColor: Color(0xFF4f000b),
           prefixIcon: Container(
