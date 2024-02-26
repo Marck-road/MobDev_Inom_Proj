@@ -169,11 +169,12 @@ class _SignUpPageState extends State<SignUpPage> {
         password: password,
       );
 
-      UserCredential loginCredentials =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      // Apparently this shit is not needed
+      // UserCredential loginCredentials =
+      //     await FirebaseAuth.instance.signInWithEmailAndPassword(
+      //   email: email,
+      //   password: password,
+      // );
 
       var item = StorageItem("uid", credential.user?.uid ?? "");
       await storageService.saveData(item);
